@@ -1,0 +1,374 @@
+{
+  "Easy": {
+    "A1": [
+      "SELECT * FROM Customers;",
+      "SELECT Customers.* FROM Customers;",
+      "SELECT c.* FROM Customers c;",
+      "SELECT * FROM Customers WHERE 1=1;",
+      "SELECT * FROM Customers WHERE TRUE;"
+    ],
+    "A2": [
+      "SELECT ProductName, Price FROM Products;",
+      "SELECT Price, ProductName FROM Products;",
+      "SELECT p.ProductName, p.Price FROM Products p;",
+      "SELECT ProductName, Price FROM Products WHERE 1=1;",
+      "SELECT ProductName, Price FROM Products WHERE TRUE;"
+    ],
+    "A3": [
+      "SELECT * FROM Products WHERE Price > 100.00;",
+      "SELECT * FROM Products WHERE Price - 100.00 > 0;",
+      "SELECT * FROM Products WHERE Price > (SELECT AVG(Price) FROM Products);",
+      "SELECT * FROM Products WHERE NOT Price <= 100.00;",
+      "SELECT * FROM Products WHERE Price > 100.00 AND StockQuantity > 0;"
+    ],
+    "A4": [
+      "SELECT * FROM Customers WHERE City = 'New York';",
+      "SELECT * FROM Customers WHERE LOWER(City) = 'new york';",
+      "SELECT * FROM Customers WHERE City LIKE 'New York';",
+      "SELECT * FROM Customers WHERE City = 'New York' AND Status = 'Active';",
+      "SELECT * FROM Customers WHERE City IN ('New York', 'Los Angeles');"
+    ],
+    "A5": [
+      "SELECT * FROM Orders WHERE Status = 'Pending';",
+      "SELECT * FROM Orders WHERE Status = 'Pending' AND OrderDate >= '2023-01-01';",
+      "SELECT * FROM Orders WHERE Status IN ('Pending', 'Processing');",
+      "SELECT * FROM Orders WHERE NOT Status = 'Completed';",
+      "SELECT * FROM Orders WHERE Status = 'Pending' ORDER BY OrderDate DESC;"
+    ],
+    "A6": [
+      "SELECT * FROM Products WHERE ProductName LIKE '%Laptop%';",
+      "SELECT * FROM Products WHERE ProductName LIKE 'Laptop%';",
+      "SELECT * FROM Products WHERE ProductName LIKE '%Laptop' ESCAPE '';",
+      "SELECT * FROM Products WHERE ProductName ILIKE '%laptop%';",
+      "SELECT * FROM Products WHERE LOWER(ProductName) LIKE '%laptop%';"
+    ],
+    "A7": [
+      "SELECT * FROM Customers WHERE YEAR(JoinDate) = 2023;",
+      "SELECT * FROM Customers WHERE JoinDate >= '2023-01-01' AND JoinDate < '2024-01-01';",
+      "SELECT * FROM Customers WHERE JoinDate BETWEEN '2023-01-01' AND '2023-12-31';",
+      "SELECT * FROM Customers WHERE DATE_PART('year', JoinDate) = 2023;",
+      "SELECT * FROM Customers WHERE EXTRACT(YEAR FROM JoinDate) = 2023;"
+    ],
+    "A8": [
+      "SELECT * FROM Products WHERE CategoryID IN (1, 2);",
+      "SELECT * FROM Products WHERE FIND_IN_SET(CategoryID, '1,2');",
+      "SELECT * FROM Products WHERE CategoryID = 1 OR CategoryID = 2;",
+      "SELECT * FROM Products WHERE CategoryID BETWEEN 1 AND 2;",
+      "SELECT * FROM Products WHERE CategoryID IN (SELECT CategoryID FROM Categories WHERE CategoryID <= 2);"
+    ],
+    "A9": [
+      "SELECT * FROM Products WHERE StockQuantity BETWEEN 20 AND 50;",
+      "SELECT * FROM Products WHERE StockQuantity >= 20 AND StockQuantity <= 50;",
+      "SELECT * FROM Products WHERE StockQuantity > 20 AND StockQuantity < 50;",
+      "SELECT * FROM Products WHERE StockQuantity IN (20, 21, 22, ..., 50);",
+      "SELECT * FROM Products WHERE StockQuantity NOT IN (0, 1, 2, ..., 19, 51, 52, ...);"
+    ],
+    "A10": [
+      "SELECT DISTINCT City FROM Customers;",
+      "SELECT City FROM Customers GROUP BY City;",
+      "SELECT City FROM Customers WHERE City IS NOT NULL GROUP BY City;",
+      "SELECT City FROM Customers GROUP BY City HAVING COUNT(*) > 1;",
+      "SELECT City FROM Customers ORDER BY City ASC;"
+    ]
+  },
+  "Medium": {
+    "A11": [
+      "SELECT COUNT(CustomerID) FROM Customers;",
+      "SELECT COUNT(*) FROM Customers;",
+      "SELECT COUNT(1) FROM Customers;",
+      "SELECT COUNT(DISTINCT CustomerID) FROM Customers;",
+      "SELECT COUNT(CustomerID) AS TotalCustomers FROM Customers;"
+    ],
+    "A12": [
+      "SELECT AVG(Price) FROM Products;",
+      "SELECT AVG(UnitPrice) FROM Products;",
+      "SELECT AVG(Price) AS AveragePrice FROM Products;",
+      "SELECT SUM(Price) / COUNT(*) FROM Products;",
+      "SELECT AVG(COALESCE(Price,0)) FROM Products;"
+    ],
+    "A13": [
+      "SELECT SUM(StockQuantity) FROM Products;",
+      "SELECT SUM(Quantity) FROM Inventory;",
+      "SELECT SUM(StockQuantity) AS TotalStock FROM Products;",
+      "SELECT SUM(COALESCE(StockQuantity,0)) FROM Products;",
+      "SELECT COUNT(*) - COUNT(StockQuantity) FROM Products WHERE StockQuantity IS NULL;"
+    ],
+    "A14": [
+      "SELECT MIN(OrderDate) FROM Orders;",
+      "SELECT MIN(OrderDate) AS EarliestOrder FROM Orders;",
+      "SELECT OrderDate FROM Orders ORDER BY OrderDate ASC LIMIT 1;",
+      "SELECT TOP 1 OrderDate FROM Orders ORDER BY OrderDate ASC;",
+      "SELECT OrderDate FROM Orders WHERE ROWNUM = 1 ORDER BY OrderDate ASC;"
+    ],
+    "A15": [
+      "SELECT MAX(OrderDate) FROM Orders;",
+      "SELECT MAX(OrderDate) AS LatestOrder FROM Orders;",
+      "SELECT OrderDate FROM Orders ORDER BY OrderDate DESC LIMIT 1;",
+      "SELECT TOP 1 OrderDate FROM Orders ORDER BY OrderDate DESC;",
+      "SELECT OrderDate FROM Orders WHERE ROWNUM = 1 ORDER BY OrderDate DESC;"
+    ],
+    "A16": [
+      "SELECT CategoryID, COUNT(ProductID) FROM Products GROUP BY CategoryID;",
+      "SELECT CategoryID, COUNT(*) FROM Products GROUP BY CategoryID;",
+      "SELECT CategoryID, COUNT(1) FROM Products GROUP BY CategoryID;",
+      "SELECT CategoryID, COUNT(DISTINCT ProductID) FROM Products GROUP BY CategoryID;",
+      "SELECT CategoryID, SUM(CASE WHEN ProductID IS NOT NULL THEN 1 ELSE 0 END) FROM Products GROUP BY CategoryID;"
+    ],
+    "A17": [
+      "SELECT CustomerID, COUNT(OrderID) FROM Orders GROUP BY CustomerID;",
+      "SELECT CustomerID, COUNT(*) FROM Orders GROUP BY CustomerID;",
+      "SELECT CustomerID, COUNT(1) FROM Orders GROUP BY CustomerID;",
+      "SELECT CustomerID, COUNT(DISTINCT OrderID) FROM Orders GROUP BY CustomerID;",
+      "SELECT CustomerID, SUM(CASE WHEN OrderID IS NOT NULL THEN 1 ELSE 0 END) FROM Orders GROUP BY CustomerID;"
+    ],
+    "A18": [
+      "SELECT SUM(Quantity * UnitPrice) AS OrderTotal FROM OrderDetails WHERE OrderID = 101;",
+      "SELECT SUM(TotalPrice) FROM OrderDetails WHERE OrderID = 101;",
+      "SELECT SUM(COALESCE(Quantity,0) * COALESCE(UnitPrice,0)) AS OrderTotal FROM OrderDetails WHERE OrderID = 101;",
+      "SELECT SUM(Quantity * UnitPrice) FROM OrderDetails WHERE OrderID = 101 GROUP BY OrderID;",
+      "SELECT (SELECT SUM(Quantity * UnitPrice) FROM OrderDetails WHERE OrderID = 101) AS OrderTotal;"
+    ],
+    "A19": [
+      "SELECT p.ProductName, c.CategoryName FROM Products p JOIN Categories c ON p.CategoryID = c.CategoryID;",
+      "SELECT ProductName, CategoryName FROM Products JOIN Categories ON Products.CategoryID = Categories.CategoryID;",
+      "SELECT p.ProductName, c.CategoryName FROM Products p, Categories c WHERE p.CategoryID = c.CategoryID;",
+      "SELECT p.ProductName, c.CategoryName FROM Products p INNER JOIN Categories c ON p.CategoryID = c.CategoryID;",
+      "SELECT p.ProductName, c.CategoryName FROM Products p LEFT JOIN Categories c ON p.CategoryID = c.CategoryID;"
+    ],
+    "A20": [
+      "SELECT o.OrderID, c.FirstName FROM Orders o JOIN Customers c ON o.CustomerID = c.CustomerID;",
+      "SELECT OrderID, FirstName FROM Orders JOIN Customers ON Orders.CustomerID = Customers.CustomerID;",
+      "SELECT o.OrderID, c.FirstName FROM Orders o, Customers c WHERE o.CustomerID = c.CustomerID;",
+      "SELECT o.OrderID, c.FirstName FROM Orders o INNER JOIN Customers c ON o.CustomerID = c.CustomerID;",
+      "SELECT o.OrderID, c.FirstName FROM Orders o LEFT JOIN Customers c ON o.CustomerID = c.CustomerID;"
+    ],
+    "A21": [
+      "SELECT ProductID, SUM(Quantity) AS TotalSold FROM OrderDetails GROUP BY ProductID;",
+      "SELECT ProductID, SUM(Quantity) FROM OrderDetails GROUP BY ProductID;",
+      "SELECT ProductID, COUNT(*) AS TotalSold FROM OrderDetails GROUP BY ProductID;",
+      "SELECT ProductID, SUM(CASE WHEN Quantity IS NOT NULL THEN Quantity ELSE 0 END) AS TotalSold FROM OrderDetails GROUP BY ProductID;",
+      "SELECT od.ProductID, SUM(od.Quantity) AS TotalSold FROM OrderDetails od GROUP BY od.ProductID;"
+    ],
+    "A22": [
+      "SELECT c.CustomerID, c.FirstName FROM Customers c LEFT JOIN Orders o ON c.CustomerID = o.CustomerID WHERE o.OrderID IS NULL;",
+      "SELECT c.CustomerID, c.FirstName FROM Customers c WHERE NOT EXISTS (SELECT 1 FROM Orders o WHERE c.CustomerID = o.CustomerID);",
+      "SELECT c.CustomerID, c.FirstName FROM Customers c LEFT JOIN Orders o ON c.CustomerID = o.CustomerID WHERE o.OrderID IS NULL OR o.OrderID = '';",
+      "SELECT c.CustomerID, c.FirstName FROM Customers c WHERE c.CustomerID NOT IN (SELECT CustomerID FROM Orders);",
+      "SELECT c.CustomerID, c.FirstName FROM Customers c WHERE c.CustomerID IN (SELECT CustomerID FROM Customers c2 WHERE c2.CustomerID = c.CustomerID AND NOT EXISTS (SELECT 1 FROM Orders o WHERE o.CustomerID = c2.CustomerID));"
+    ],
+    "A23": [
+      "SELECT p.ProductID, p.ProductName FROM Products p LEFT JOIN OrderDetails od ON p.ProductID = od.ProductID WHERE od.OrderDetailID IS NULL;",
+      "SELECT p.ProductID, p.ProductName FROM Products p WHERE NOT EXISTS (SELECT 1 FROM OrderDetails od WHERE p.ProductID = od.ProductID);",
+      "SELECT p.ProductID, p.ProductName FROM Products p LEFT JOIN OrderDetails od ON p.ProductID = od.ProductID WHERE od.OrderDetailID IS NULL OR od.OrderDetailID = '';",
+      "SELECT p.ProductID, p.ProductName FROM Products p WHERE p.ProductID NOT IN (SELECT ProductID FROM OrderDetails);",
+      "SELECT p.ProductID, p.ProductName FROM Products p WHERE p.ProductID IN (SELECT ProductID FROM Products p2 WHERE p2.ProductID = p.ProductID AND NOT EXISTS (SELECT 1 FROM OrderDetails od WHERE od.ProductID = p2.ProductID));"
+    ],
+    "A24": [
+      "SELECT ProductName, Price FROM Products ORDER BY Price DESC LIMIT 1;",
+      "SELECT ProductName, Price FROM Products WHERE Price = (SELECT MAX(Price) FROM Products);",
+      "SELECT * FROM (SELECT ProductName, Price FROM Products ORDER BY Price DESC) WHERE ROWNUM = 1;",
+      "SELECT * FROM Products ORDER BY Price DESC FETCH FIRST 1 ROW ONLY;",
+      "SELECT TOP 1 ProductName, Price FROM Products ORDER BY Price DESC;"
+    ],
+    "A25": [
+      "SELECT * FROM Customers ORDER BY JoinDate DESC;",
+      "SELECT * FROM Customers ORDER BY JoinDate DESC LIMIT 10;",
+      "SELECT * FROM Customers WHERE JoinDate IS NOT NULL ORDER BY JoinDate DESC;",
+      "SELECT * FROM Customers ORDER BY JoinDate DESC, CustomerID ASC;",
+      "SELECT * FROM Customers ORDER BY JoinDate DESC NULLS LAST;"
+    ]
+  },
+  "Hard": {
+    "A26": [
+      "SELECT OrderID, SUM(Quantity * UnitPrice) AS TotalRevenue FROM OrderDetails GROUP BY OrderID;",
+      "SELECT OrderID, SUM(UnitPrice * Quantity) AS TotalRevenue FROM OrderDetails GROUP BY OrderID;",
+      "SELECT od.OrderID, SUM(od.Quantity * od.UnitPrice) AS TotalRevenue FROM OrderDetails od GROUP BY od.OrderID;",
+      "SELECT OrderID, SUM(COALESCE(Quantity,0) * COALESCE(UnitPrice,0)) AS TotalRevenue FROM OrderDetails GROUP BY OrderID;",
+      "SELECT OrderID, SUM(Quantity * UnitPrice) TotalRevenue FROM OrderDetails GROUP BY OrderID;"
+    ],
+    "A27": [
+      "SELECT c.FirstName, c.LastName, SUM(od.Quantity * od.UnitPrice) AS TotalSpent FROM Customers c JOIN Orders o ON c.CustomerID = o.CustomerID JOIN OrderDetails od ON o.OrderID = od.OrderID GROUP BY c.CustomerID HAVING TotalSpent > 1000;",
+      "SELECT c.FirstName, c.LastName, SUM(od.Quantity * od.UnitPrice) AS TotalSpent FROM Customers c, Orders o, OrderDetails od WHERE c.CustomerID = o.CustomerID AND o.OrderID = od.OrderID GROUP BY c.CustomerID HAVING TotalSpent > 1000;",
+      "SELECT c.FirstName, c.LastName, SUM(Quantity * UnitPrice) AS TotalSpent FROM Customers c JOIN Orders o ON c.CustomerID = o.CustomerID JOIN OrderDetails od ON o.OrderID = od.OrderID WHERE TotalSpent > 1000 GROUP BY c.CustomerID;",
+      "SELECT c.FirstName, c.LastName, SUM(od.Quantity * od.UnitPrice) AS TotalSpent FROM Customers c INNER JOIN Orders o ON c.CustomerID = o.CustomerID INNER JOIN OrderDetails od ON o.OrderID = od.OrderID GROUP BY c.CustomerID HAVING TotalSpent > 1000;",
+      "SELECT c.FirstName, c.LastName, SUM(od.Quantity * od.UnitPrice) AS TotalSpent FROM Customers c LEFT JOIN Orders o ON c.CustomerID = o.CustomerID LEFT JOIN OrderDetails od ON o.OrderID = od.OrderID GROUP BY c.CustomerID HAVING TotalSpent > 1000;"
+    ],
+    "A28": [
+      "SELECT ProductName, Price FROM Products WHERE Price > (SELECT AVG(Price) FROM Products);",
+      "SELECT * FROM Products WHERE Price - (SELECT AVG(Price) FROM Products) > 0;",
+      "SELECT * FROM Products WHERE Price > ALL (SELECT Price FROM Products);",
+      "SELECT * FROM Products WHERE Price > (SELECT MAX(Price) FROM Products WHERE Price < 100);",
+      "SELECT * FROM Products WHERE Price > (SELECT MIN(Price) FROM Products WHERE Price > 0);"
+    ],
+    "A29": [
+      "SELECT c.CategoryName, COUNT(p.ProductID) AS ProductCount FROM Categories c JOIN Products p ON c.CategoryID = p.CategoryID GROUP BY c.CategoryID HAVING ProductCount > 10;",
+      "SELECT c.CategoryName, COUNT(*) AS ProductCount FROM Categories c JOIN Products p ON c.CategoryID = p.CategoryID GROUP BY c.CategoryID HAVING ProductCount > 10;",
+      "SELECT c.CategoryName, COUNT(1) AS ProductCount FROM Categories c JOIN Products p ON c.CategoryID = p.CategoryID GROUP BY c.CategoryID HAVING ProductCount > 10;",
+      "SELECT c.CategoryName, COUNT(DISTINCT p.ProductID) AS ProductCount FROM Categories c JOIN Products p ON c.CategoryID = p.CategoryID GROUP BY c.CategoryID HAVING ProductCount > 10;",
+      "SELECT c.CategoryName, SUM(CASE WHEN p.ProductID IS NOT NULL THEN 1 ELSE 0 END) AS ProductCount FROM Categories c JOIN Products p ON c.CategoryID = p.CategoryID GROUP BY c.CategoryID HAVING ProductCount > 10;"
+    ],
+    "A30": [
+      "SELECT cat.CategoryName, SUM(od.Quantity * od.UnitPrice) AS CategoryRevenue FROM Categories cat JOIN Products p ON cat.CategoryID = p.CategoryID JOIN OrderDetails od ON p.ProductID = od.ProductID GROUP BY cat.CategoryName;",
+      "SELECT c.CategoryName, SUM(Quantity * UnitPrice) AS CategoryRevenue FROM Categories c, Products p, OrderDetails od WHERE c.CategoryID = p.CategoryID AND p.ProductID = od.ProductID GROUP BY c.CategoryID;",
+      "SELECT c.CategoryName, SUM(od.Quantity * od.UnitPrice) AS CategoryRevenue FROM Categories c JOIN Products p ON c.CategoryID = p.CategoryID JOIN OrderDetails od ON p.ProductID = od.ProductID GROUP BY c.CategoryName;",
+      "SELECT cat.CategoryName, SUM(od.Quantity * od.UnitPrice) AS CategoryRevenue FROM Categories cat, Products p, OrderDetails od WHERE cat.CategoryID = p.CategoryID AND p.ProductID = od.ProductID GROUP BY cat.CategoryName;",
+      "SELECT c.CategoryName, SUM(COALESCE(od.Quantity,0) * COALESCE(od.UnitPrice,0)) AS CategoryRevenue FROM Categories c JOIN Products p ON c.CategoryID = p.CategoryID JOIN OrderDetails od ON p.ProductID = od.ProductID GROUP BY c.CategoryName;"
+    ],
+    "A31": [
+      "SELECT o.CustomerID, COUNT(DISTINCT od.ProductID) AS UniqueProducts FROM Orders o JOIN OrderDetails od ON o.OrderID = od.OrderID GROUP BY o.CustomerID;",
+      "SELECT o.CustomerID, COUNT(od.ProductID) AS UniqueProducts FROM Orders o JOIN OrderDetails od ON o.OrderID = od.OrderID GROUP BY o.CustomerID;",
+      "SELECT o.CustomerID, COUNT(*) AS UniqueProducts FROM Orders o JOIN OrderDetails od ON o.OrderID = od.OrderID GROUP BY o.CustomerID;",
+      "SELECT o.CustomerID, COUNT(DISTINCT CASE WHEN od.ProductID IS NOT NULL THEN od.ProductID END) AS UniqueProducts FROM Orders o JOIN OrderDetails od ON o.OrderID = od.OrderID GROUP BY o.CustomerID;",
+      "SELECT o.CustomerID, SUM(CASE WHEN od.ProductID IS NOT NULL THEN 1 ELSE 0 END) AS UniqueProducts FROM Orders o JOIN OrderDetails od ON o.OrderID = od.OrderID GROUP BY o.CustomerID;"
+    ],
+    "A32": [
+      "SELECT p.ProductName, SUM(od.Quantity) AS TotalQuantitySold FROM Products p JOIN OrderDetails od ON p.ProductID = od.ProductID GROUP BY p.ProductID ORDER BY TotalQuantitySold DESC LIMIT 5;",
+      "SELECT p.ProductName, SUM(Quantity) AS TotalQuantitySold FROM Products p, OrderDetails od WHERE p.ProductID = od.ProductID GROUP BY p.ProductID ORDER BY TotalQuantitySold DESC LIMIT 5;",
+      "SELECT p.ProductName, SUM(od.Quantity) AS TotalQuantitySold FROM Products p JOIN OrderDetails od ON p.ProductID = od.ProductID GROUP BY p.ProductName ORDER BY TotalQuantitySold DESC LIMIT 5;",
+      "SELECT p.ProductName, SUM(Quantity) AS TotalQuantitySold FROM Products p, OrderDetails od WHERE p.ProductID = od.ProductID GROUP BY p.ProductName ORDER BY TotalQuantitySold DESC LIMIT 5;",
+      "SELECT p.ProductName, SUM(od.Quantity) AS TotalQuantitySold FROM Products p JOIN OrderDetails od ON p.ProductID = od.ProductID GROUP BY p.ProductID HAVING TotalQuantitySold > 0 ORDER BY TotalQuantitySold DESC LIMIT 5;"
+    ],
+    "A33": [
+      "SELECT c.FirstName, c.LastName FROM Customers c JOIN Orders o ON c.CustomerID = o.CustomerID ORDER BY o.OrderDate DESC LIMIT 1;",
+      "SELECT c.FirstName, c.LastName FROM Customers c, Orders o WHERE c.CustomerID = o.CustomerID ORDER BY o.OrderDate DESC LIMIT 1;",
+      "SELECT TOP 1 c.FirstName, c.LastName FROM Customers c JOIN Orders o ON c.CustomerID = o.CustomerID ORDER BY o.OrderDate DESC;",
+      "SELECT c.FirstName, c.LastName FROM Customers c JOIN Orders o ON c.CustomerID = o.CustomerID WHERE o.OrderDate = (SELECT MAX(OrderDate) FROM Orders);",
+      "SELECT c.FirstName, c.LastName FROM Customers c JOIN Orders o ON c.CustomerID = o.CustomerID WHERE o.OrderDate = (SELECT MAX(OrderDate) FROM Orders WHERE OrderDate < '2024-01-01');"
+    ],
+    "A34": [
+      "SELECT DISTINCT p.ProductName FROM Products p JOIN OrderDetails od ON p.ProductID = od.ProductID JOIN Orders o ON od.OrderID = o.OrderID WHERE o.OrderDate >= '2024-01-01' AND o.OrderDate < '2024-02-01';",
+      "SELECT p.ProductName FROM Products p, OrderDetails od, Orders o WHERE p.ProductID = od.ProductID AND od.OrderID = o.OrderID AND o.OrderDate >= '2024-01-01' AND o.OrderDate < '2024-02-01' GROUP BY p.ProductName;",
+      "SELECT p.ProductName FROM Products p JOIN OrderDetails od ON p.ProductID = od.ProductID JOIN Orders o ON od.OrderID = o.OrderID WHERE o.OrderDate BETWEEN '2024-01-01' AND '2024-02-01' GROUP BY p.ProductName;",
+      "SELECT p.ProductName FROM Products p JOIN OrderDetails od ON p.ProductID = od.ProductID JOIN Orders o ON od.OrderID = o.OrderID WHERE o.OrderDate >= '2024-01-01' AND o.OrderDate < '2024-02-01' GROUP BY p.ProductName HAVING COUNT(*) > 1;",
+      "SELECT p.ProductName FROM Products p JOIN OrderDetails od ON p.ProductID = od.ProductID JOIN Orders o ON od.OrderID = o.OrderID WHERE o.OrderDate >= '2024-01-01' AND o.OrderDate < '2024-02-01' GROUP BY p.ProductName HAVING SUM(Quantity) > 1;"
+    ],
+    "A35": [
+      "SELECT (SELECT SUM(Quantity * UnitPrice) FROM OrderDetails) / (SELECT COUNT(OrderID) FROM Orders) AS AvgOrderValue;",
+      "SELECT AVG(TotalValue) FROM (SELECT SUM(Quantity * UnitPrice) AS TotalValue FROM OrderDetails GROUP BY OrderID) AS OrderTotals;",
+      "SELECT AVG(OrderTotal) FROM (SELECT OrderID, SUM(Quantity * UnitPrice) AS OrderTotal FROM OrderDetails GROUP BY OrderID) AS OrderTotals;",
+      "SELECT SUM(TotalRevenue) / COUNT(DISTINCT OrderID) AS AvgOrderValue FROM (SELECT OrderID, SUM(Quantity * UnitPrice) AS TotalRevenue FROM OrderDetails GROUP BY OrderID) AS OrderTotals;",
+      "SELECT AVG(COALESCE(Quantity,0) * COALESCE(UnitPrice,0)) AS AvgOrderValue FROM OrderDetails;"
+    ],
+    "A36": [
+      "SELECT c.CustomerID, c.FirstName, COUNT(o.OrderID) AS OrderCount FROM Customers c JOIN Orders o ON c.CustomerID = o.CustomerID GROUP BY c.CustomerID HAVING OrderCount >= 5;",
+      "SELECT c.CustomerID, c.FirstName, COUNT(*) AS OrderCount FROM Customers c JOIN Orders o ON c.CustomerID = o.CustomerID GROUP BY c.CustomerID HAVING OrderCount >= 5;",
+      "SELECT c.CustomerID, c.FirstName, COUNT(1) AS OrderCount FROM Customers c JOIN Orders o ON c.CustomerID = o.CustomerID GROUP BY c.CustomerID HAVING OrderCount >= 5;",
+      "SELECT c.CustomerID, c.FirstName, COUNT(DISTINCT o.OrderID) AS OrderCount FROM Customers c JOIN Orders o ON c.CustomerID = o.CustomerID GROUP BY c.CustomerID HAVING OrderCount >= 5;",
+      "SELECT c.CustomerID, c.FirstName, SUM(CASE WHEN o.OrderID IS NOT NULL THEN 1 ELSE 0 END) AS OrderCount FROM Customers c JOIN Orders o ON c.CustomerID = o.CustomerID GROUP BY c.CustomerID HAVING OrderCount >= 5;"
+    ],
+    "A37": [
+      "SELECT SUM(od.Quantity * od.UnitPrice) AS MarchRevenue FROM OrderDetails od JOIN Orders o ON od.OrderID = o.OrderID WHERE o.OrderDate >= '2023-03-01' AND o.OrderDate < '2023-04-01';",
+      "SELECT SUM(Quantity * UnitPrice) AS MarchRevenue FROM OrderDetails WHERE OrderID IN (SELECT OrderID FROM Orders WHERE OrderDate >= '2023-03-01' AND OrderDate < '2023-04-01');",
+      "SELECT SUM(od.TotalPrice) AS MarchRevenue FROM OrderDetails od JOIN Orders o ON od.OrderID = o.OrderID WHERE o.OrderDate BETWEEN '2023-03-01' AND '2023-03-31';",
+      "SELECT SUM(Quantity * UnitPrice) AS MarchRevenue FROM OrderDetails WHERE OrderID IN (SELECT OrderID FROM Orders WHERE OrderDate BETWEEN '2023-03-01' AND '2023-03-31');",
+      "SELECT SUM(COALESCE(od.Quantity,0) * COALESCE(od.UnitPrice,0)) AS MarchRevenue FROM OrderDetails od JOIN Orders o ON od.OrderID = o.OrderID WHERE o.OrderDate >= '2023-03-01' AND o.OrderDate < '2023-04-01';"
+    ],
+    "A38": [
+      "SELECT DISTINCT c.FirstName, c.LastName FROM Customers c JOIN Orders o ON c.CustomerID = o.CustomerID JOIN OrderDetails od ON o.OrderID = od.OrderID WHERE od.ProductID = 5;",
+      "SELECT c.FirstName, c.LastName FROM Customers c, Orders o, OrderDetails od WHERE c.CustomerID = o.CustomerID AND o.OrderID = od.OrderID AND od.ProductID = 5;",
+      "SELECT DISTINCT c.FirstName, c.LastName FROM Customers c JOIN Orders o ON c.CustomerID = o.CustomerID JOIN OrderDetails od ON o.OrderID = od.OrderID WHERE od.ProductID IN (5, 6, 7);",
+      "SELECT c.FirstName, c.LastName FROM Customers c JOIN Orders o ON c.CustomerID = o.CustomerID JOIN OrderDetails od ON o.OrderID = od.OrderID WHERE od.ProductID = 5 GROUP BY c.FirstName, c.LastName HAVING COUNT(*) > 1;",
+      "SELECT c.FirstName, c.LastName FROM Customers c JOIN Orders o ON c.CustomerID = o.CustomerID JOIN OrderDetails od ON o.OrderID = od.OrderID WHERE od.ProductID = 5 AND o.OrderDate >= '2023-01-01' GROUP BY c.FirstName, c.LastName;"
+    ],
+    "A39": [
+      "SELECT ProductName FROM Products ORDER BY StockQuantity DESC LIMIT 1;",
+      "SELECT ProductName FROM Products WHERE StockQuantity = (SELECT MAX(StockQuantity) FROM Products);",
+      "SELECT * FROM (SELECT ProductName, StockQuantity FROM Products ORDER BY StockQuantity DESC) WHERE ROWNUM = 1;",
+      "SELECT TOP 1 ProductName, StockQuantity FROM Products ORDER BY StockQuantity DESC;",
+      "SELECT ProductName FROM Products WHERE StockQuantity = (SELECT MAX(StockQuantity) FROM Products WHERE StockQuantity IS NOT NULL);"
+    ],
+    "A40": [
+      "SELECT AVG(TotalItems) FROM (SELECT OrderID, SUM(Quantity) AS TotalItems FROM OrderDetails GROUP BY OrderID) AS OrderTotals;",
+      "SELECT AVG(ItemCount) FROM (SELECT OrderID, COUNT(ProductID) AS ItemCount FROM OrderDetails GROUP BY OrderID) AS OrderSummary;",
+      "SELECT AVG(Quantity) FROM OrderDetails;",
+      "SELECT AVG(TotalQuantity) FROM (SELECT OrderID, SUM(Quantity) AS TotalQuantity FROM OrderDetails GROUP BY OrderID) AS OrderSums;",
+      "SELECT AVG(SUM(Quantity)) FROM OrderDetails GROUP BY OrderID;"
+    ]
+  },
+  "Complicated": {
+    "A41": [
+      "WITH CustomerSpending AS (   SELECT        o.CustomerID,        SUM(od.Quantity * od.UnitPrice) / COUNT(DISTINCT o.OrderID) AS AvgOrderValue   FROM Orders o   JOIN OrderDetails od ON o.OrderID = od.OrderID   GROUP BY o.CustomerID ), OverallAverage AS (   SELECT AVG(AvgOrderValue) AS GlobalAvg FROM CustomerSpending ) SELECT c.FirstName, cs.AvgOrderValue FROM CustomerSpending cs JOIN Customers c ON cs.CustomerID = c.CustomerID CROSS JOIN OverallAverage WHERE cs.AvgOrderValue > OverallAverage.GlobalAvg;",
+      "WITH CustomerAvg AS (   SELECT        o.CustomerID,       AVG(od.Quantity * od.UnitPrice) AS AvgOrderValue   FROM Orders o   JOIN OrderDetails od ON o.OrderID = od.OrderID   GROUP BY o.CustomerID ), GlobalAvg AS (   SELECT AVG(AvgOrderValue) AS OverallAvg FROM CustomerAvg ) SELECT c.FirstName, ca.AvgOrderValue FROM CustomerAvg ca JOIN Customers c ON ca.CustomerID = c.CustomerID CROSS JOIN GlobalAvg WHERE ca.AvgOrderValue > GlobalAvg.OverallAvg;",
+      "WITH RankedCustomers AS (   SELECT        c.CustomerID,       c.FirstName,       c.LastName,       SUM(od.Quantity * od.UnitPrice) AS TotalSpent,       RANK() OVER(ORDER BY SUM(od.Quantity * od.UnitPrice) DESC) AS SpendingRank   FROM Customers c   JOIN Orders o ON c.CustomerID = o.CustomerID   JOIN OrderDetails od ON o.OrderID = od.OrderID   GROUP BY c.CustomerID ) SELECT FirstName, LastName, TotalSpent FROM RankedCustomers WHERE SpendingRank <= 10;",
+      "WITH CustomerOrders AS (   SELECT        o.CustomerID,       COUNT(DISTINCT o.OrderID) AS OrderCount,       SUM(od.Quantity * od.UnitPrice) AS TotalSpent   FROM Orders o   JOIN OrderDetails od ON o.OrderID = od.OrderID   GROUP BY o.CustomerID ) SELECT c.FirstName, c.LastName, co.OrderCount, co.TotalSpent FROM Customers c JOIN CustomerOrders co ON c.CustomerID = co.CustomerID WHERE co.TotalSpent > (SELECT AVG(TotalSpent) FROM CustomerOrders);",
+      "WITH MonthlySales AS (   SELECT       DATE_TRUNC('month', o.OrderDate) AS SaleMonth,       SUM(od.Quantity * od.UnitPrice) AS MonthlyRevenue   FROM Orders o   JOIN OrderDetails od ON o.OrderID = od.OrderID   GROUP BY SaleMonth ) SELECT   SaleMonth,   MonthlyRevenue,   SUM(MonthlyRevenue) OVER(ORDER BY SaleMonth) AS RunningTotal FROM MonthlySales;"
+    ],
+    "A42": [
+      "SELECT c.CategoryName, AVG(p.Price) AS AvgCategoryPrice FROM Categories c JOIN Products p ON c.CategoryID = p.CategoryID GROUP BY c.CategoryID HAVING AvgCategoryPrice > (SELECT AVG(Price) FROM Products);",
+      "SELECT c.CategoryName, AVG(UnitPrice) AS AvgCategoryPrice FROM Categories c JOIN Products p ON c.CategoryID = p.CategoryID GROUP BY c.CategoryID HAVING AvgCategoryPrice > (SELECT AVG(UnitPrice) FROM Products);",
+      "WITH CategoryAvg AS (   SELECT        c.CategoryID,       AVG(p.Price) AS AvgCategoryPrice   FROM Categories c   JOIN Products p ON c.CategoryID = p.CategoryID   GROUP BY c.CategoryID ) SELECT c.CategoryName, ca.AvgCategoryPrice FROM CategoryAvg ca JOIN Categories c ON ca.CategoryID = c.CategoryID WHERE ca.AvgCategoryPrice > (SELECT AVG(AvgCategoryPrice) FROM CategoryAvg);",
+      "WITH PriceStats AS (   SELECT        c.CategoryID,       AVG(p.Price) AS AvgCategoryPrice,       MIN(p.Price) AS MinPrice,       MAX(p.Price) AS MaxPrice   FROM Categories c   JOIN Products p ON c.CategoryID = p.CategoryID   GROUP BY c.CategoryID ) SELECT c.CategoryName, ps.AvgCategoryPrice, ps.MinPrice, ps.MaxPrice FROM PriceStats ps JOIN Categories c ON ps.CategoryID = c.CategoryID WHERE ps.AvgCategoryPrice > (SELECT AVG(AvgCategoryPrice) FROM PriceStats);",
+      "SELECT c.CategoryName, AVG(p.Price) AS AvgCategoryPrice FROM Categories c JOIN Products p ON c.CategoryID = p.CategoryID GROUP BY c.CategoryID HAVING COUNT(p.ProductID) > 5 AND AvgCategoryPrice > (SELECT AVG(Price) FROM Products);"
+    ],
+    "A43": [
+      "WITH CustomerSpending AS (   SELECT        c.City,       c.FirstName,       c.LastName,       SUM(od.Quantity * od.UnitPrice) AS TotalSpent,       ROW_NUMBER() OVER(PARTITION BY c.City ORDER BY SUM(od.Quantity * od.UnitPrice) DESC) AS city_rank   FROM Customers c   JOIN Orders o ON c.CustomerID = o.CustomerID   JOIN OrderDetails od ON o.OrderID = od.OrderID   GROUP BY c.CustomerID ) SELECT City, FirstName, LastName, TotalSpent FROM CustomerSpending WHERE city_rank <= 3;",
+      "WITH CityRankings AS (   SELECT        c.City,       c.FirstName,       c.LastName,       SUM(od.Quantity * od.UnitPrice) AS TotalSpent,       RANK() OVER(PARTITION BY c.City ORDER BY SUM(od.Quantity * od.UnitPrice) DESC) AS city_rank   FROM Customers c   JOIN Orders o ON c.CustomerID = o.CustomerID   JOIN OrderDetails od ON o.OrderID = od.OrderID   GROUP BY c.CustomerID ) SELECT City, FirstName, LastName, TotalSpent FROM CityRankings WHERE city_rank <= 3;",
+      "WITH TopCustomers AS (   SELECT        c.CustomerID,       c.FirstName,       c.LastName,       SUM(od.Quantity * od.UnitPrice) AS TotalSpent,       RANK() OVER(ORDER BY SUM(od.Quantity * od.UnitPrice) DESC) AS SpendingRank   FROM Customers c   JOIN Orders o ON c.CustomerID = o.CustomerID   JOIN OrderDetails od ON o.OrderID = od.OrderID   GROUP BY c.CustomerID ) SELECT FirstName, LastName, TotalSpent FROM TopCustomers WHERE SpendingRank <= 10;",
+      "WITH RankedSpending AS (   SELECT        c.CustomerID,       SUM(od.Quantity * od.UnitPrice) AS TotalSpent,       DENSE_RANK() OVER(ORDER BY SUM(od.Quantity * od.UnitPrice) DESC) AS SpendingRank   FROM Customers c   JOIN Orders o ON c.CustomerID = o.CustomerID   JOIN OrderDetails od ON o.OrderID = od.OrderID   GROUP BY c.CustomerID ) SELECT c.FirstName, c.LastName, rs.TotalSpent FROM RankedSpending rs JOIN Customers c ON rs.CustomerID = c.CustomerID WHERE rs.SpendingRank <= 10;",
+      "WITH CityWiseSpending AS (   SELECT        c.City,       SUM(od.Quantity * od.UnitPrice) AS TotalSpent   FROM Customers c   JOIN Orders o ON c.CustomerID = o.CustomerID   JOIN OrderDetails od ON o.OrderID = od.OrderID   GROUP BY c.City ) SELECT City, SUM(TotalSpent) AS TotalSpending FROM CityWiseSpending GROUP BY City HAVING SUM(TotalSpent) > (SELECT AVG(TotalSpent) FROM CityWiseSpending);"
+    ],
+    "A44": [
+      "WITH DailySales AS (   SELECT       DATE(o.OrderDate) AS SaleDate,       SUM(od.Quantity * od.UnitPrice) AS DailyRevenue   FROM Orders o   JOIN OrderDetails od ON o.OrderID = od.OrderID   WHERE o.OrderDate >= '2023-12-01' AND o.OrderDate < '2024-01-01'   GROUP BY SaleDate ) SELECT   SaleDate,   DailyRevenue,   SUM(DailyRevenue) OVER(ORDER BY SaleDate) AS RunningTotal FROM DailySales;",
+      "WITH DailyRevenue AS (   SELECT       CAST(o.OrderDate AS DATE) AS SaleDate,       SUM(od.Quantity * od.UnitPrice) AS DailyRevenue   FROM Orders o   JOIN OrderDetails od ON o.OrderID = od.OrderID   WHERE o.OrderDate >= '2023-12-01' AND o.OrderDate < '2024-01-01'   GROUP BY CAST(o.OrderDate AS DATE) ) SELECT   SaleDate,   DailyRevenue,   SUM(DailyRevenue) OVER(ORDER BY SaleDate) AS RunningTotal FROM DailyRevenue;",
+      "WITH SalesData AS (   SELECT       DATE(o.OrderDate) AS SaleDate,       SUM(od.Quantity * od.UnitPrice) AS DailyRevenue   FROM Orders o   JOIN OrderDetails od ON o.OrderID = od.OrderID   WHERE o.OrderDate >= '2023-12-01' AND o.OrderDate < '2024-01-01'   GROUP BY DATE(o.OrderDate) ) SELECT   SaleDate,   DailyRevenue,   SUM(DailyRevenue) OVER(ORDER BY SaleDate) AS RunningTotal FROM SalesData;",
+      "WITH RevenueByDay AS (   SELECT       CONVERT(DATE, o.OrderDate) AS SaleDate,       SUM(od.Quantity * od.UnitPrice) AS DailyRevenue   FROM Orders o   JOIN OrderDetails od ON o.OrderID = od.OrderID   WHERE o.OrderDate >= '2023-12-01' AND o.OrderDate < '2024-01-01'   GROUP BY CONVERT(DATE, o.OrderDate) ) SELECT   SaleDate,   DailyRevenue,   SUM(DailyRevenue) OVER(ORDER BY SaleDate) AS RunningTotal FROM RevenueByDay;",
+      "WITH DailySales AS (   SELECT       DATE(o.OrderDate) AS SaleDate,       SUM(od.Quantity * od.UnitPrice) AS DailyRevenue   FROM Orders o   JOIN OrderDetails od ON o.OrderID = od.OrderID   WHERE o.OrderDate >= '2023-12-01' AND o.OrderDate < '2024-01-01'   GROUP BY DATE(o.OrderDate) ) SELECT   SaleDate,   DailyRevenue,   SUM(DailyRevenue) OVER(ORDER BY SaleDate) AS RunningTotal FROM DailySales;"
+    ],
+    "A45": [
+      "WITH RankedOrders AS (   SELECT        CustomerID,        OrderDate,       LEAD(OrderDate, 1) OVER(PARTITION BY CustomerID ORDER BY OrderDate) AS NextOrderDate,       ROW_NUMBER() OVER(PARTITION BY CustomerID ORDER BY OrderDate) AS order_num   FROM Orders ) SELECT    CustomerID,   OrderDate AS FirstOrder,   NextOrderDate AS SecondOrder,   DATEDIFF(NextOrderDate, OrderDate) AS DaysBetween FROM RankedOrders WHERE order_num = 1 AND NextOrderDate IS NOT NULL;",
+      "WITH OrderRanks AS (   SELECT        CustomerID,       OrderDate,       LEAD(OrderDate) OVER(PARTITION BY CustomerID ORDER BY OrderDate) AS NextOrderDate,       ROW_NUMBER() OVER(PARTITION BY CustomerID ORDER BY OrderDate) AS OrderRank   FROM Orders ) SELECT    CustomerID,   OrderDate AS FirstOrderDate,   NextOrderDate AS SecondOrderDate,   DATEDIFF(NextOrderDate, OrderDate) AS DaysBetweenOrders FROM OrderRanks WHERE OrderRank = 1 AND NextOrderDate IS NOT NULL;",
+      "WITH OrderSequence AS (   SELECT        CustomerID,       OrderDate,       LEAD(OrderDate) OVER(PARTITION BY CustomerID ORDER BY OrderDate) AS NextOrderDate,       ROW_NUMBER() OVER(PARTITION BY CustomerID ORDER BY OrderDate) AS Seq   FROM Orders ) SELECT    CustomerID,   OrderDate AS FirstOrderDate,   NextOrderDate AS SecondOrderDate,   DATEDIFF(NextOrderDate, OrderDate) AS DaysBetween FROM OrderSequence WHERE Seq = 1 AND NextOrderDate IS NOT NULL;",
+      "WITH CustomerOrders AS (   SELECT        CustomerID,       OrderDate,       LEAD(OrderDate) OVER(PARTITION BY CustomerID ORDER BY OrderDate) AS NextOrderDate   FROM Orders ) SELECT    CustomerID,   OrderDate AS FirstOrderDate,   NextOrderDate AS SecondOrderDate,   DATEDIFF(NextOrderDate, OrderDate) AS DaysBetween FROM CustomerOrders WHERE NextOrderDate IS NOT NULL;",
+      "WITH OrderDiffs AS (   SELECT        CustomerID,       OrderDate,       LEAD(OrderDate) OVER(PARTITION BY CustomerID ORDER BY OrderDate) AS NextOrderDate   FROM Orders ) SELECT    CustomerID,   OrderDate AS FirstOrderDate,   NextOrderDate AS SecondOrderDate,   DATEDIFF(NextOrderDate, OrderDate) AS DaysBetween FROM OrderDiffs WHERE NextOrderDate IS NOT NULL;"
+    ],
+    "A46": [
+      "SELECT c.CustomerID, c.FirstName FROM Customers c JOIN Orders o ON c.CustomerID = o.CustomerID JOIN OrderDetails od ON o.OrderID = od.OrderID WHERE od.ProductID = 5 -- Bought Product A AND EXISTS (   SELECT 1   FROM OrderDetails od2   JOIN Orders o2 ON od2.OrderID = o2.OrderID   WHERE o2.CustomerID = c.CustomerID AND od2.ProductID = 8 -- Also bought Product B ) GROUP BY c.CustomerID;",
+      "SELECT c.CustomerID, c.FirstName FROM Customers c JOIN Orders o ON c.CustomerID = o.CustomerID JOIN OrderDetails od ON o.OrderID = od.OrderID WHERE od.ProductID = 5 AND EXISTS (   SELECT 1   FROM OrderDetails od2   WHERE od2.OrderID = o.OrderID AND od2.ProductID = 8 ) GROUP BY c.CustomerID;",
+      "SELECT c.CustomerID, c.FirstName FROM Customers c JOIN Orders o ON c.CustomerID = o.CustomerID JOIN OrderDetails od ON o.OrderID = od.OrderID WHERE od.ProductID = 5 AND EXISTS (   SELECT 1   FROM OrderDetails od2   WHERE od2.OrderID = o.OrderID AND od2.ProductID = 8 ) GROUP BY c.CustomerID;",
+      "SELECT c.CustomerID, c.FirstName FROM Customers c JOIN Orders o ON c.CustomerID = o.CustomerID JOIN OrderDetails od ON o.OrderID = od.OrderID WHERE od.ProductID = 5 AND EXISTS (   SELECT 1   FROM OrderDetails od2   WHERE od2.OrderID = o.OrderID AND od2.ProductID = 8 ) GROUP BY c.CustomerID;",
+      "SELECT c.CustomerID, c.FirstName FROM Customers c JOIN Orders o ON c.CustomerID = o.CustomerID JOIN OrderDetails od ON o.OrderID = od.OrderID WHERE od.ProductID = 5 AND EXISTS (   SELECT 1   FROM OrderDetails od2   WHERE od2.OrderID = o.OrderID AND od2.ProductID = 8 ) GROUP BY c.CustomerID;"
+    ],
+    "A47": [
+      "SELECT c.CustomerID, c.FirstName FROM Customers c JOIN Orders o ON c.CustomerID = o.CustomerID JOIN OrderDetails od ON o.OrderID = od.OrderID WHERE od.ProductID = 5 -- Bought Product A AND NOT EXISTS (   SELECT 1   FROM OrderDetails od2   JOIN Orders o2 ON od2.OrderID = o2.OrderID   WHERE o2.CustomerID = c.CustomerID AND od2.ProductID = 8 -- Did NOT buy Product B ) GROUP BY c.CustomerID;",
+      "SELECT c.CustomerID, c.FirstName FROM Customers c JOIN Orders o ON c.CustomerID = o.CustomerID JOIN OrderDetails od ON o.OrderID = od.OrderID WHERE od.ProductID = 5 AND NOT EXISTS (   SELECT 1   FROM OrderDetails od2   WHERE od2.OrderID = o.OrderID AND od2.ProductID = 8 ) GROUP BY c.CustomerID;",
+      "SELECT c.CustomerID, c.FirstName FROM Customers c JOIN Orders o ON c.CustomerID = o.CustomerID JOIN OrderDetails od ON o.OrderID = od.OrderID WHERE od.ProductID = 5 AND NOT EXISTS (   SELECT 1   FROM OrderDetails od2   WHERE od2.OrderID = o.OrderID AND od2.ProductID = 8 ) GROUP BY c.CustomerID;",
+      "SELECT c.CustomerID, c.FirstName FROM Customers c JOIN Orders o ON c.CustomerID = o.CustomerID JOIN OrderDetails od ON o.OrderID = od.OrderID WHERE od.ProductID = 5 AND NOT EXISTS (   SELECT 1   FROM OrderDetails od2   WHERE od2.OrderID = o.OrderID AND od2.ProductID = 8 ) GROUP BY c.CustomerID;",
+      "SELECT c.CustomerID, c.FirstName FROM Customers c JOIN Orders o ON c.CustomerID = o.CustomerID JOIN OrderDetails od ON o.OrderID = od.OrderID WHERE od.ProductID = 5 AND NOT EXISTS (   SELECT 1   FROM OrderDetails od2   WHERE od2.OrderID = o.OrderID AND od2.ProductID = 8 ) GROUP BY c.CustomerID;"
+    ],
+    "A48": [
+      "WITH CategoryRevenue AS (   SELECT        c.CategoryName,       SUM(od.Quantity * od.UnitPrice) AS Revenue   FROM Categories c   JOIN Products p ON c.CategoryID = p.CategoryID   JOIN OrderDetails od ON p.ProductID = od.ProductID   GROUP BY c.CategoryName ), TotalRevenue AS (   SELECT SUM(Revenue) AS Total FROM CategoryRevenue ) SELECT   cr.CategoryName,   cr.Revenue,   (cr.Revenue / tr.Total) * 100 AS PercentageOfTotal FROM CategoryRevenue cr CROSS JOIN TotalRevenue tr;",
+      "WITH RevenueByCategory AS (   SELECT        c.CategoryID,       SUM(od.Quantity * od.UnitPrice) AS TotalRevenue   FROM Categories c   JOIN Products p ON c.CategoryID = p.CategoryID   JOIN OrderDetails od ON p.ProductID = od.ProductID   GROUP BY c.CategoryID ), OverallRevenue AS (   SELECT SUM(TotalRevenue) AS Total FROM RevenueByCategory ) SELECT   c.CategoryName,   rbc.TotalRevenue,   (rbc.TotalRevenue / or.Total) * 100 AS RevenuePercentage FROM RevenueByCategory rbc JOIN Categories c ON rbc.CategoryID = c.CategoryID CROSS JOIN OverallRevenue or;",
+      "WITH CategorySales AS (   SELECT        c.CategoryID,       SUM(od.Quantity * od.UnitPrice) AS TotalSales   FROM Categories c   JOIN Products p ON c.CategoryID = p.CategoryID   JOIN OrderDetails od ON p.ProductID = od.ProductID   GROUP BY c.CategoryID ), TotalSales AS (   SELECT SUM(TotalSales) AS GrandTotal FROM CategorySales ) SELECT   c.CategoryName,   cs.TotalSales,   (cs.TotalSales / ts.GrandTotal) * 100 AS SalesPercentage FROM CategorySales cs JOIN Categories c ON cs.CategoryID = c.CategoryID CROSS JOIN TotalSales ts;",
+      "WITH SalesData AS (   SELECT        c.CategoryID,       SUM(od.Quantity * od.UnitPrice) AS TotalSales   FROM Categories c   JOIN Products p ON c.CategoryID = p.CategoryID   JOIN OrderDetails od ON p.ProductID = od.ProductID   GROUP BY c.CategoryID ), OverallSales AS (   SELECT SUM(TotalSales) AS Total FROM SalesData ) SELECT   c.CategoryName,   sd.TotalSales,   (sd.TotalSales / os.Total) * 100 AS SalesShare FROM SalesData sd JOIN Categories c ON sd.CategoryID = c.CategoryID CROSS JOIN OverallSales os;",
+      "WITH CategoryIncome AS (   SELECT        c.CategoryID,       SUM(od.Quantity * od.UnitPrice) AS TotalIncome   FROM Categories c   JOIN Products p ON c.CategoryID = p.CategoryID   JOIN OrderDetails od ON p.ProductID = od.ProductID   GROUP BY c.CategoryID ), GlobalIncome AS (   SELECT SUM(TotalIncome) AS Total FROM CategoryIncome ) SELECT   c.CategoryName,   ci.TotalIncome,   (ci.TotalIncome / gi.Total) * 100 AS IncomePercentage FROM CategoryIncome ci JOIN Categories c ON ci.CategoryID = c.CategoryID CROSS JOIN GlobalIncome gi;"
+    ],
+    "A49": [
+      "SELECT   p.ProductID,   p.ProductName,   COUNT(DISTINCT od.OrderID) AS OrderCount FROM Products p JOIN OrderDetails od ON p.ProductID = od.ProductID GROUP BY p.ProductID, p.ProductName ORDER BY OrderCount DESC LIMIT 1;",
+      "SELECT TOP 1   p.ProductID,   p.ProductName,   COUNT(DISTINCT od.OrderID) AS OrderCount FROM Products p JOIN OrderDetails od ON p.ProductID = od.ProductID GROUP BY p.ProductID, p.ProductName ORDER BY OrderCount DESC;",
+      "SELECT   p.ProductID,   p.ProductName,   COUNT(DISTINCT od.OrderID) AS OrderCount FROM Products p JOIN OrderDetails od ON p.ProductID = od.ProductID GROUP BY p.ProductID, p.ProductName HAVING OrderCount = (SELECT MAX(OrderCount) FROM (SELECT COUNT(DISTINCT od2.OrderID) AS OrderCount FROM OrderDetails od2 GROUP BY od2.ProductID) AS OrderCounts);",
+      "SELECT   p.ProductID,   p.ProductName,   COUNT(DISTINCT od.OrderID) AS OrderCount FROM Products p JOIN OrderDetails od ON p.ProductID = od.ProductID GROUP BY p.ProductID, p.ProductName HAVING OrderCount = (SELECT MAX(OrderCount) FROM (SELECT COUNT(*) AS OrderCount FROM OrderDetails GROUP BY ProductID) AS OrderCounts);",
+      "SELECT   p.ProductID,   p.ProductName,   COUNT(DISTINCT od.OrderID) AS OrderCount FROM Products p JOIN OrderDetails od ON p.ProductID = od.ProductID GROUP BY p.ProductID, p.ProductName ORDER BY OrderCount DESC FETCH FIRST 1 ROW ONLY;"
+    ],
+    "A50": [
+      "WITH CustomerSpending AS (   SELECT        c.CustomerID,       c.JoinDate,       SUM(od.Quantity * od.UnitPrice) AS TotalSpent   FROM Customers c   LEFT JOIN Orders o ON c.CustomerID = o.CustomerID   LEFT JOIN OrderDetails od ON o.OrderID = od.OrderID   GROUP BY c.CustomerID, c.JoinDate ) SELECT    CustomerID,   TotalSpent,   LAG(TotalSpent, 1, 0) OVER (ORDER BY JoinDate) AS PreviousCustomerSpending FROM CustomerSpending;",
+      "WITH SpendingData AS (   SELECT        c.CustomerID,       c.JoinDate,       SUM(od.Quantity * od.UnitPrice) AS TotalSpent   FROM Customers c   LEFT JOIN Orders o ON c.CustomerID = o.CustomerID   LEFT JOIN OrderDetails od ON o.OrderID = od.OrderID   GROUP BY c.CustomerID, c.JoinDate ) SELECT    CustomerID,   TotalSpent,   LAG(TotalSpent) OVER (PARTITION BY CustomerID ORDER BY JoinDate) AS PreviousTotalSpent FROM SpendingData;",
+      "WITH RankedSpending AS (   SELECT        c.CustomerID,       c.JoinDate,       SUM(od.Quantity * od.UnitPrice) AS TotalSpent,       ROW_NUMBER() OVER (PARTITION BY c.CustomerID ORDER BY c.JoinDate) AS rn   FROM Customers c   LEFT JOIN Orders o ON c.CustomerID = o.CustomerID   LEFT JOIN OrderDetails od ON o.OrderID = od.OrderID   GROUP BY c.CustomerID, c.JoinDate ) SELECT    CustomerID,   TotalSpent,   (SELECT TotalSpent FROM RankedSpending rs WHERE rs.CustomerID = RankedSpending.CustomerID AND rs.rn = 1) AS PreviousTotalSpent FROM RankedSpending WHERE rn = 2;",
+      "WITH CustomerTotals AS (   SELECT        c.CustomerID,       SUM(od.Quantity * od.UnitPrice) AS TotalSpent   FROM Customers c   JOIN Orders o ON c.CustomerID = o.CustomerID   JOIN OrderDetails od ON o.OrderID = od.OrderID   GROUP BY c.CustomerID ) SELECT    c.CustomerID,   ct.TotalSpent,   (SELECT TotalSpent FROM CustomerTotals WHERE CustomerID = c.CustomerID) AS PreviousTotalSpent FROM Customers c JOIN CustomerTotals ct ON c.CustomerID = ct.CustomerID;",
+      "WITH SpendingLag AS (   SELECT        c.CustomerID,       SUM(od.Quantity * od.UnitPrice) AS TotalSpent,       LAG(SUM(od.Quantity * od.UnitPrice), 1, 0) OVER (PARTITION BY c.CustomerID ORDER BY c.JoinDate) AS PreviousTotalSpent   FROM Customers c   JOIN Orders o ON c.CustomerID = o.CustomerID   JOIN OrderDetails od ON o.OrderID = od.OrderID   GROUP BY c.CustomerID, c.JoinDate ) SELECT    CustomerID,   TotalSpent,   PreviousTotalSpent FROM SpendingLag;"
+    ],
+    "A51": [
+      "SELECT OrderID, COUNT(DISTINCT ProductID) AS UniqueProducts FROM OrderDetails GROUP BY OrderID HAVING UniqueProducts > 5;",
+      "SELECT OrderID, COUNT(*) AS UniqueProducts FROM OrderDetails GROUP BY OrderID HAVING UniqueProducts > 5;",
+      "SELECT OrderID, COUNT(1) AS UniqueProducts FROM OrderDetails GROUP BY OrderID HAVING UniqueProducts > 5;",
+      "SELECT OrderID, COUNT(DISTINCT CASE WHEN ProductID IS NOT NULL THEN ProductID END) AS UniqueProducts FROM OrderDetails GROUP BY OrderID HAVING UniqueProducts > 5;",
+      "SELECT OrderID, SUM(CASE WHEN ProductID IS NOT NULL THEN 1 ELSE 0 END) AS UniqueProducts FROM OrderDetails GROUP BY OrderID HAVING UniqueProducts > 5;"
+    ],
+    "A52": [
+      "WITH DailySales AS (   SELECT        DATE(OrderDate) AS SaleDate,       SUM(od.Quantity * od.UnitPrice) AS DailyRevenue   FROM Orders o   JOIN OrderDetails od ON o.OrderID = od.OrderID   GROUP BY SaleDate ) SELECT   SaleDate,   DailyRevenue,   AVG(DailyRevenue) OVER(       ORDER BY SaleDate       ROWS BETWEEN 2 PRECEDING AND CURRENT ROW   ) AS ThreeDayMovingAvg FROM DailySales;",
+      "WITH RevenueData AS (   SELECT        DATE(OrderDate) AS SaleDate,       SUM(od.Quantity * od.UnitPrice) AS DailyRevenue   FROM Orders o   JOIN OrderDetails od ON o.OrderID = od.OrderID   GROUP BY DATE(OrderDate) ) SELECT   SaleDate,   DailyRevenue,   AVG(DailyRevenue) OVER(       ORDER BY SaleDate       ROWS BETWEEN 2 PRECEDING AND CURRENT ROW   ) AS MovingAverageRevenue FROM RevenueData;",
+      "WITH SalesData AS (   SELECT        DATE(OrderDate) AS SaleDate,       SUM(od.Quantity * od.UnitPrice) AS DailyRevenue   FROM Orders o   JOIN OrderDetails od ON o.OrderID = od.OrderID   GROUP BY DATE(OrderDate) ) SELECT   SaleDate,   DailyRevenue,   AVG(DailyRevenue) OVER(       ORDER BY SaleDate       ROWS BETWEEN 2 PRECEDING AND CURRENT ROW   ) AS AvgRevenueLast3Days FROM SalesData;",
+      "WITH DailyRevenue AS (   SELECT        DATE(OrderDate) AS SaleDate,       SUM(od.Quantity * od.UnitPrice) AS DailyRevenue   FROM Orders o   JOIN OrderDetails od ON o.OrderID = od.OrderID   GROUP BY DATE(OrderDate) ) SELECT   SaleDate,   DailyRevenue,   AVG(DailyRevenue) OVER(       ORDER BY SaleDate       ROWS BETWEEN 2 PRECEDING AND CURRENT ROW   ) AS RevenueMovingAvg FROM DailyRevenue;",
+      "WITH SalesSummary AS (   SELECT        DATE(OrderDate) AS SaleDate,       SUM(od.Quantity * od.UnitPrice) AS DailyRevenue   FROM Orders o   JOIN OrderDetails od ON o.OrderID = od.OrderID   GROUP BY DATE(OrderDate) ) SELECT   SaleDate,   DailyRevenue,   AVG(DailyRevenue) OVER(       ORDER BY SaleDate       ROWS BETWEEN 2 PRECEDING AND CURRENT ROW   ) AS ThreeDayAvgRevenue FROM SalesSummary;"
+    ]
+  }
+}

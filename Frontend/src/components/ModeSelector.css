@@ -1,0 +1,226 @@
+.mode-selector {
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  padding: 40px 20px;
+}
+
+.mode-header {
+  text-align: center;
+  margin-bottom: 50px;
+  animation: fadeInDown 0.8s ease-out;
+}
+
+.mode-header h1 {
+  font-size: 3rem;
+  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+  margin-bottom: 10px;
+  font-weight: 800;
+  letter-spacing: 2px;
+}
+
+.mode-subtitle {
+  font-size: 1.3rem;
+  color: #b0bec5;
+  font-weight: 300;
+}
+
+.modes-container {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+  gap: 30px;
+  max-width: 1400px;
+  width: 100%;
+  margin-bottom: 40px;
+  padding: 0 20px;
+}
+
+.mode-card {
+  background: rgba(40, 40, 70, 0.9);
+  border-radius: 16px;
+  padding: 30px;
+  border: 2px solid transparent;
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+  cursor: pointer;
+  position: relative;
+  overflow: hidden;
+  animation: fadeInUp 0.8s ease-out backwards;
+}
+
+.mode-card::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: var(--mode-color);
+  opacity: 0;
+  transition: opacity 0.3s ease;
+  z-index: 0;
+}
+
+.mode-card:hover::before {
+  opacity: 0.1;
+}
+
+.mode-card:hover {
+  transform: translateY(-10px);
+  border-color: var(--mode-color);
+  box-shadow: 0 15px 40px rgba(0, 0, 0, 0.5),
+              0 0 20px var(--mode-color);
+}
+
+.mode-card > * {
+  position: relative;
+  z-index: 1;
+}
+
+.mode-icon {
+  font-size: 3.5rem;
+  text-align: center;
+  margin-bottom: 15px;
+  animation: bounce 2s infinite;
+}
+
+.mode-card:hover .mode-icon {
+  animation: pulse 0.6s ease-in-out;
+}
+
+.mode-title {
+  font-size: 1.8rem;
+  color: #fff;
+  text-align: center;
+  margin-bottom: 15px;
+  font-weight: 700;
+}
+
+.mode-description {
+  color: #cfd8dc;
+  text-align: center;
+  line-height: 1.6;
+  margin-bottom: 20px;
+  font-size: 1rem;
+  min-height: 60px;
+}
+
+.mode-button {
+  width: 100%;
+  padding: 12px 24px;
+  background: var(--mode-color);
+  color: white;
+  border: none;
+  border-radius: 8px;
+  font-size: 1.1rem;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  text-transform: uppercase;
+  letter-spacing: 1px;
+}
+
+.mode-button:hover {
+  transform: scale(1.05);
+  box-shadow: 0 5px 15px rgba(0, 0, 0, 0.3);
+}
+
+.info-section {
+  background: rgba(30, 30, 50, 0.8);
+  border-radius: 12px;
+  padding: 20px 30px;
+  border-left: 4px solid #64b5f6;
+  max-width: 800px;
+  animation: fadeIn 1s ease-out 0.5s backwards;
+}
+
+.info-section p {
+  color: #e0e0e0;
+  font-size: 1rem;
+  line-height: 1.6;
+  margin: 0;
+}
+
+.info-section strong {
+  color: #64b5f6;
+}
+
+/* Animations */
+@keyframes fadeInDown {
+  from {
+    opacity: 0;
+    transform: translateY(-30px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@keyframes fadeInUp {
+  from {
+    opacity: 0;
+    transform: translateY(30px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}
+
+@keyframes bounce {
+  0%, 100% {
+    transform: translateY(0);
+  }
+  50% {
+    transform: translateY(-10px);
+  }
+}
+
+@keyframes pulse {
+  0%, 100% {
+    transform: scale(1);
+  }
+  50% {
+    transform: scale(1.2);
+  }
+}
+
+/* Stagger animation for cards */
+.mode-card:nth-child(1) { animation-delay: 0.1s; }
+.mode-card:nth-child(2) { animation-delay: 0.2s; }
+.mode-card:nth-child(3) { animation-delay: 0.3s; }
+.mode-card:nth-child(4) { animation-delay: 0.4s; }
+.mode-card:nth-child(5) { animation-delay: 0.5s; }
+
+@media (max-width: 768px) {
+  .mode-header h1 {
+    font-size: 2rem;
+  }
+
+  .mode-subtitle {
+    font-size: 1rem;
+  }
+
+  .modes-container {
+    grid-template-columns: 1fr;
+    padding: 0 10px;
+  }
+
+  .mode-card {
+    padding: 25px;
+  }
+}
