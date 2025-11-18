@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { validateSQL, isValidSQLSyntax } from '../utils/sqlValidator';
+import { validateSQL, checkBackendHealth } from '../utils/sqlValidator';
 import TableSchema from './TableSchema';
 import './Quiz.css';
 
@@ -12,23 +12,33 @@ const Quiz = ({ mode, questions, onComplete }) => {
   const [score, setScore] = useState(0);
   const [completedQuestions, setCompletedQuestions] = useState(0);
   const [validationResult, setValidationResult] = useState(null);
+  const [backendConnected, setBackendConnected] = useState(false);
 
   const currentQuestion = questions[currentQuestionIndex];
 
-  const handleSubmit = () => {
+  // Check backend health on component mount
+  useEffect(() => {
+    checkBackendHealth().then(isHealthy => {
+      setBackendConnected(isHealthy);
+      if (!isHealthy) {
+        setFeedback('⚠️ Backend server not available. Please ensure the backend is running.');
+      }
+    });
+  }, []);
+
+  const handleSubmit = async () => {
+    if (!backendConnected) {
+      setFeedback('⚠️ Backend server not available. Please ensure the backend is running.');
+      return;
+    }
+
     if (!userQuery.trim()) {
       setFeedback('⚠️ Please enter a SQL query');
       return;
     }
 
-    // Check basic syntax first
-    if (!isValidSQLSyntax(userQuery)) {
-      setFeedback('❌ Invalid SQL syntax. Check your query structure.');
-      return;
-    }
-
-    // Validate against correct answer
-    const result = validateSQL(userQuery, currentQuestion.answer);
+    // Validate against correct answer via API
+    const result = await validateSQL(userQuery, currentQuestion.answer);
     setValidationResult(result);
 
     if (result.isValid) {

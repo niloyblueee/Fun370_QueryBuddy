@@ -3,7 +3,7 @@
     "Q1": "Retrieve all data from the `Customers` table.",
     "Q2": "Get the `ProductName` and `Price` of all products.",
     "Q3": "Find all products with a `Price` greater than $100.",
-    "Q4": "Find all customers who live in 'New York'.",
+    "Q4": "Find all customers who live in 'NewYork'.",
     "Q5": "Find all orders with a 'Pending' status.",
     "Q6": "Find all products where the `ProductName` includes the word 'Laptop'.",
     "Q7": "Find all customers who joined the platform in the year 2023.",
