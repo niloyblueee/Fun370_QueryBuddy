@@ -35,9 +35,6 @@ const dbConfig = parseDbConfig();
 
 const initializeDatabase = async () => {
   try {
-    // Read SQL file
-    const sql = fs.readFileSync(path.join(__dirname, 'Create tables.sql'), 'utf8');
-
     // Connect to MySQL
     const connection = await mysql.createConnection({
       host: dbConfig.host,
@@ -48,11 +45,31 @@ const initializeDatabase = async () => {
       multipleStatements: true
     });
 
-    // Execute SQL
+    // Drop all existing tables
+    console.log('🗑️  Dropping existing tables...');
+    const dropTablesSQL = `
+      SET FOREIGN_KEY_CHECKS = 0;
+      DROP TABLE IF EXISTS Categories;
+      DROP TABLE IF EXISTS Customers;
+      DROP TABLE IF EXISTS customers;
+      DROP TABLE IF EXISTS orders;
+      DROP TABLE IF EXISTS products;
+      DROP TABLE IF EXISTS orderdetails;
+      DROP TABLE IF EXISTS catagories;
+      SET FOREIGN_KEY_CHECKS = 1;
+    `;
+    await connection.query(dropTablesSQL);
+    console.log('✅ Dropped all existing tables');
+
+    // Read and execute SQL file to create fresh schema
+    const sql = fs.readFileSync(path.join(__dirname, 'Create tables.sql'), 'utf8');
+    console.log('📊 Creating fresh database schema...');
     await connection.query(sql);
+    console.log('✅ Fresh database schema created');
+
     await connection.end();
 
-    console.log('✅ Database initialized with schema and dummy data!');
+    console.log('✅ Database reinitialized with fresh schema and dummy data!');
     return true;
   } catch (err) {
     console.error('❌ Error initializing database:', err.message);

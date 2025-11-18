@@ -4,50 +4,51 @@ import './TableSchema.css';
 const TableSchema = () => {
   const tables = [
     {
-      name: 'Customers',
+      name: 'customers',
       columns: [
-        { name: 'CustomerID', type: 'INT', constraint: 'PK' },
-        { name: 'FirstName', type: 'VARCHAR', constraint: '' },
-        { name: 'LastName', type: 'VARCHAR', constraint: '' },
-        { name: 'Email', type: 'VARCHAR', constraint: '' },
-        { name: 'JoinDate', type: 'DATE', constraint: '' },
-        { name: 'City', type: 'VARCHAR', constraint: '' }
+        { name: 'customerid', type: 'INT', constraint: 'PK' },
+        { name: 'firstname', type: 'VARCHAR(255)', constraint: '' },
+        { name: 'lastname', type: 'VARCHAR(255)', constraint: '' },
+        { name: 'email', type: 'VARCHAR(255)', constraint: '' },
+        { name: 'joindate', type: 'DATE', constraint: '' },
+        { name: 'city', type: 'VARCHAR(255)', constraint: '' },
+        { name: 'status', type: 'VARCHAR(100)', constraint: '' }
       ]
     },
     {
-      name: 'Categories',
+      name: 'categories',
       columns: [
-        { name: 'CategoryID', type: 'INT', constraint: 'PK' },
-        { name: 'CategoryName', type: 'VARCHAR', constraint: '' }
+        { name: 'categoryid', type: 'INT', constraint: 'PK' },
+        { name: 'categoryname', type: 'VARCHAR(255)', constraint: '' }
       ]
     },
     {
-      name: 'Products',
+      name: 'products',
       columns: [
-        { name: 'ProductID', type: 'INT', constraint: 'PK' },
-        { name: 'ProductName', type: 'VARCHAR', constraint: '' },
-        { name: 'CategoryID', type: 'INT', constraint: 'FK' },
-        { name: 'Price', type: 'DECIMAL', constraint: '' },
-        { name: 'StockQuantity', type: 'INT', constraint: '' }
+        { name: 'productid', type: 'INT', constraint: 'PK' },
+        { name: 'productname', type: 'VARCHAR(255)', constraint: '' },
+        { name: 'categoryid', type: 'INT', constraint: 'FK' },
+        { name: 'price', type: 'DECIMAL(10,2)', constraint: '' },
+        { name: 'stockquantity', type: 'INT', constraint: '' }
       ]
     },
     {
-      name: 'Orders',
+      name: 'orders',
       columns: [
-        { name: 'OrderID', type: 'INT', constraint: 'PK' },
-        { name: 'CustomerID', type: 'INT', constraint: 'FK' },
-        { name: 'OrderDate', type: 'DATETIME', constraint: '' },
-        { name: 'Status', type: 'VARCHAR', constraint: '' }
+        { name: 'orderid', type: 'INT', constraint: 'PK' },
+        { name: 'customerid', type: 'INT', constraint: 'FK' },
+        { name: 'orderdate', type: 'DATETIME', constraint: '' },
+        { name: 'status', type: 'VARCHAR(100)', constraint: '' }
       ]
     },
     {
-      name: 'OrderDetails',
+      name: 'orderdetails',
       columns: [
-        { name: 'OrderDetailID', type: 'INT', constraint: 'PK' },
-        { name: 'OrderID', type: 'INT', constraint: 'FK' },
-        { name: 'ProductID', type: 'INT', constraint: 'FK' },
-        { name: 'Quantity', type: 'INT', constraint: '' },
-        { name: 'UnitPrice', type: 'DECIMAL', constraint: '' }
+        { name: 'orderdetailid', type: 'INT', constraint: 'PK' },
+        { name: 'orderid', type: 'INT', constraint: 'FK' },
+        { name: 'productid', type: 'INT', constraint: 'FK' },
+        { name: 'quantity', type: 'INT', constraint: '' },
+        { name: 'unitprice', type: 'DECIMAL(10,2)', constraint: '' }
       ]
     }
   ];
