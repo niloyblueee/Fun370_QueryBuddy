@@ -223,6 +223,79 @@ app.get('/api/health', async (req, res) => {
   }
 });
 
+// Comprehensive health checkpoint endpoint
+app.get('/api/health-checkpoint', async (req, res) => {
+  try {
+    console.log('🏥 [API] /api/health-checkpoint - Comprehensive health check');
+    
+    const healthReport = {
+      timestamp: new Date().toISOString(),
+      server: {
+        status: 'running',
+        port: PORT,
+        uptime: process.uptime(),
+        memory: process.memoryUsage()
+      },
+      database: {
+        host: dbConfig.host,
+        port: dbConfig.port,
+        database: dbConfig.database,
+        user: dbConfig.user,
+        status: 'unknown',
+        connection: null,
+        tables: 0,
+        error: null
+      },
+      routes: {
+        health: '✅',
+        validate: '✅',
+        schemas: '✅',
+        checkpoint: '✅'
+      }
+    };
+
+    // Test database connection
+    try {
+      const connection = await req.db.getConnection();
+      healthReport.database.status = 'connected';
+      
+      // Get table count
+      const [tables] = await connection.query(
+        "SELECT TABLE_NAME FROM INFORMATION_SCHEMA.TABLES WHERE TABLE_SCHEMA = ?",
+        [dbConfig.database]
+      );
+      healthReport.database.tables = tables.length;
+      
+      // Get connection info
+      const [connInfo] = await connection.query('SELECT CONNECTION_ID() as connId');
+      healthReport.database.connection = {
+        id: connInfo[0]?.connId,
+        timestamp: new Date().toISOString()
+      };
+      
+      connection.release();
+      console.log(`✅ [API] Database health: CONNECTED with ${tables.length} tables`);
+    } catch (dbError) {
+      healthReport.database.status = 'disconnected';
+      healthReport.database.error = dbError.message;
+      console.error(`❌ [API] Database health: DISCONNECTED - ${dbError.message}`);
+    }
+
+    // Overall status
+    const isHealthy = healthReport.database.status === 'connected';
+    healthReport.overall = isHealthy ? 'healthy' : 'unhealthy';
+
+    res.status(isHealthy ? 200 : 503).json(healthReport);
+  } catch (error) {
+    console.error('❌ [API] Health checkpoint error:', error.message);
+    res.status(500).json({
+      timestamp: new Date().toISOString(),
+      overall: 'critical',
+      error: error.message
+    });
+  }
+});
+
 // Helper function to compare query results
 function resultsAreEquivalent(result1, result2) {
   // Convert results to JSON strings for comparison
