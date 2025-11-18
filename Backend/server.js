@@ -253,6 +253,7 @@ app.get('/api/health-checkpoint', async (req, res) => {
         checkpoint: '✅'
       }
     };
+ 
 
     // Test database connection
     try {
