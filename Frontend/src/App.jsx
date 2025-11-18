@@ -68,6 +68,15 @@ function App() {
     setQuizResults(null)
   }
 
+  const handleBackToModeSelect = () => {
+    setCurrentScreen('mode-select')
+    setSelectedMode(null)
+  }
+
+  const handleBackToQuiz = () => {
+    setCurrentScreen('quiz')
+  }
+
   return (
     <div className="app">
       {currentScreen === 'mode-select' && (
@@ -79,6 +88,7 @@ function App() {
           mode={selectedMode}
           questions={prepareQuestions(selectedMode)}
           onComplete={handleQuizComplete}
+          onBack={handleBackToModeSelect}
         />
       )}
 
@@ -86,6 +96,7 @@ function App() {
         <Results
           results={quizResults}
           onRestart={handleRestart}
+          onBack={handleBackToModeSelect}
         />
       )}
       

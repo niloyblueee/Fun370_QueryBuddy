@@ -1,7 +1,7 @@
 import React from 'react';
 import './Results.css';
 
-const Results = ({ results, onRestart }) => {
+const Results = ({ results, onRestart, onBack }) => {
   const { totalQuestions, score, mode } = results;
   const maxScore = totalQuestions * 10; // 10 points per question
   const percentage = ((score / maxScore) * 100).toFixed(1);
@@ -75,6 +75,9 @@ const Results = ({ results, onRestart }) => {
         <div className="action-buttons">
           <button className="restart-button" onClick={onRestart}>
             🔄 Try Another Mode
+          </button>
+          <button className="back-button" onClick={onBack}>
+            ← Back to Modes
           </button>
         </div>
       </div>

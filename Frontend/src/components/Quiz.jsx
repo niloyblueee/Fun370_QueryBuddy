@@ -3,7 +3,7 @@ import { validateSQL, checkBackendHealth } from '../utils/sqlValidator';
 import TableSchema from './TableSchema';
 import './Quiz.css';
 
-const Quiz = ({ mode, questions, onComplete }) => {
+const Quiz = ({ mode, questions, onComplete, onBack }) => {
   const [currentQuestionIndex, setCurrentQuestionIndex] = useState(0);
   const [userQuery, setUserQuery] = useState('');
   const [strikes, setStrikes] = useState(0);
@@ -187,6 +187,12 @@ const Quiz = ({ mode, questions, onComplete }) => {
               disabled={showAnswer}
             >
               Skip Question
+            </button>
+            <button 
+              className="back-button"
+              onClick={onBack}
+            >
+              ← Back to Modes
             </button>
           </div>
         </div>
