@@ -43,12 +43,6 @@ const dbConfig = parseDbConfig();
 app.use(cors());
 app.use(express.json());
 
-// Database middleware - attach pool to all requests
-app.use((req, res, next) => {
-  req.db = pool;
-  next();
-});
-
 // Create connection pool
 const pool = mysql.createPool({
   host: dbConfig.host,
@@ -60,6 +54,12 @@ const pool = mysql.createPool({
   connectionLimit: 10,
   queueLimit: 0,
   collation: 'utf8mb4_general_ci'  // Case-insensitive collation
+});
+
+// Database middleware - attach pool to all requests (AFTER pool is created)
+app.use((req, res, next) => {
+  req.db = pool;
+  next();
 });
 
 // Initialize database if needed
