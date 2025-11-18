@@ -1,9 +1,11 @@
 import React, { useState, useEffect } from 'react';
+import { useNavigate } from 'react-router-dom';
 import { validateSQL, checkBackendHealth } from '../utils/sqlValidator';
 import TableSchema from './TableSchema';
 import './Quiz.css';
 
 const Quiz = ({ mode, questions, onComplete, onBack }) => {
+  const navigate = useNavigate();
   const [currentQuestionIndex, setCurrentQuestionIndex] = useState(0);
   const [userQuery, setUserQuery] = useState('');
   const [strikes, setStrikes] = useState(0);
@@ -82,6 +84,7 @@ const Quiz = ({ mode, questions, onComplete, onBack }) => {
         score: score,
         mode: mode
       });
+      navigate('/results');
     }
   };
 
@@ -190,7 +193,7 @@ const Quiz = ({ mode, questions, onComplete, onBack }) => {
             </button>
             <button 
               className="back-button"
-              onClick={onBack}
+              onClick={() => navigate('/')}
             >
               ← Back to Modes
             </button>

@@ -1,4 +1,5 @@
 import { useState } from 'react'
+import { Routes, Route } from 'react-router-dom'
 import './App.css'
 import ModeSelector from './components/ModeSelector'
 import Quiz from './components/Quiz'
@@ -7,9 +8,8 @@ import questionsData from '../Question.json'
 import answersData from '../Answer.json'
 
 function App() {
-  const [currentScreen, setCurrentScreen] = useState('mode-select') // mode-select, quiz, results
-  const [selectedMode, setSelectedMode] = useState(null)
   const [quizResults, setQuizResults] = useState(null)
+  const [selectedMode, setSelectedMode] = useState(null)
 
   // Prepare questions based on selected mode
   const prepareQuestions = (mode) => {
@@ -52,53 +52,47 @@ function App() {
     return questions
   }
 
-  const handleModeSelect = (mode) => {
-    setSelectedMode(mode)
-    setCurrentScreen('quiz')
-  }
-
   const handleQuizComplete = (results) => {
     setQuizResults(results)
-    setCurrentScreen('results')
   }
 
   const handleRestart = () => {
-    setCurrentScreen('mode-select')
-    setSelectedMode(null)
     setQuizResults(null)
-  }
-
-  const handleBackToModeSelect = () => {
-    setCurrentScreen('mode-select')
     setSelectedMode(null)
-  }
-
-  const handleBackToQuiz = () => {
-    setCurrentScreen('quiz')
   }
 
   return (
     <div className="app">
-      {currentScreen === 'mode-select' && (
-        <ModeSelector onSelectMode={handleModeSelect} />
-      )}
-
-      {currentScreen === 'quiz' && (
-        <Quiz
-          mode={selectedMode}
-          questions={prepareQuestions(selectedMode)}
-          onComplete={handleQuizComplete}
-          onBack={handleBackToModeSelect}
+      <Routes>
+        <Route path="/" element={<ModeSelector onSelectMode={setSelectedMode} />} />
+        <Route 
+          path="/quiz/:mode" 
+          element={
+            selectedMode ? (
+              <Quiz
+                mode={selectedMode}
+                questions={prepareQuestions(selectedMode)}
+                onComplete={handleQuizComplete}
+              />
+            ) : (
+              <ModeSelector onSelectMode={setSelectedMode} />
+            )
+          } 
         />
-      )}
-
-      {currentScreen === 'results' && (
-        <Results
-          results={quizResults}
-          onRestart={handleRestart}
-          onBack={handleBackToModeSelect}
+        <Route 
+          path="/results" 
+          element={
+            quizResults ? (
+              <Results
+                results={quizResults}
+                onRestart={handleRestart}
+              />
+            ) : (
+              <ModeSelector onSelectMode={setSelectedMode} />
+            )
+          } 
         />
-      )}
+      </Routes>
       
       <a href="https://github.com/NiloyBlueee">Made with ❤️ by NiloyBlueee</a>
     </div>

@@ -1,7 +1,9 @@
 import React from 'react';
+import { useNavigate } from 'react-router-dom';
 import './Results.css';
 
 const Results = ({ results, onRestart, onBack }) => {
+  const navigate = useNavigate();
   const { totalQuestions, score, mode } = results;
   const maxScore = totalQuestions * 10; // 10 points per question
   const percentage = ((score / maxScore) * 100).toFixed(1);
@@ -73,10 +75,10 @@ const Results = ({ results, onRestart, onBack }) => {
         </div>
 
         <div className="action-buttons">
-          <button className="restart-button" onClick={onRestart}>
+          <button className="restart-button" onClick={() => navigate('/')}>
             🔄 Try Another Mode
           </button>
-          <button className="back-button" onClick={onBack}>
+          <button className="back-button" onClick={() => navigate('/')}>
             ← Back to Modes
           </button>
         </div>

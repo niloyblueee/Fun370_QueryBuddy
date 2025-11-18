@@ -1,7 +1,14 @@
 import React from 'react';
+import { useNavigate } from 'react-router-dom';
 import './ModeSelector.css';
 
 const ModeSelector = ({ onSelectMode }) => {
+  const navigate = useNavigate();
+
+  const handleModeSelect = (modeId) => {
+    onSelectMode(modeId);
+    navigate(`/quiz/${modeId}`);
+  };
   const modes = [
     {
       id: 'flow',
@@ -53,7 +60,7 @@ const ModeSelector = ({ onSelectMode }) => {
             key={mode.id}
             className="mode-card"
             style={{ '--mode-color': mode.color }}
-            onClick={() => onSelectMode(mode.id)}
+            onClick={() => handleModeSelect(mode.id)}
           >
             <div className="mode-icon">{mode.icon}</div>
             <h3 className="mode-title">{mode.title}</h3>
