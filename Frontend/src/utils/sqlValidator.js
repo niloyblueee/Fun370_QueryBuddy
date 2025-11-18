@@ -3,7 +3,7 @@
  * Validates queries by actually executing them against the database
  */
 
-const API_BASE_URL = import.meta.env.VITE_API_URL || 'http://localhost:3001';
+const API_BASE_URL = import.meta.env.VITE_API_URL || 'https://fun370querybuddybackend-production.up.railway.app';
 
 console.log('🚀 [FRONTEND] SQL Validator initialized');
 console.log(`📡 [FRONTEND] API Base URL: ${API_BASE_URL}`);
