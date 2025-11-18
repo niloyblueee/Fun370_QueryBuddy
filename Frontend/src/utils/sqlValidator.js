@@ -5,9 +5,6 @@
 
 const API_BASE_URL = import.meta.env.VITE_API_URL || 'https://fun370querybuddybackend-production.up.railway.app';
 
-console.log('🚀 [FRONTEND] SQL Validator initialized');
-console.log(`📡 [FRONTEND] API Base URL: ${API_BASE_URL}`);
-
 /**
  * Validate SQL query by executing against the database
  * @param {string} userQuery - User's SQL query
@@ -16,9 +13,6 @@ console.log(`📡 [FRONTEND] API Base URL: ${API_BASE_URL}`);
  */
 export async function validateSQL(userQuery, correctQuery) {
   try {
-    console.log('📤 [FRONTEND] Sending validation request...');
-    console.log(`   Query: ${userQuery.substring(0, 80)}...`);
-    
     const correctQueries = Array.isArray(correctQuery) ? correctQuery : [correctQuery];
     
     const response = await fetch(`${API_BASE_URL}/api/validate-query`, {
@@ -32,10 +26,7 @@ export async function validateSQL(userQuery, correctQuery) {
       })
     });
 
-    console.log(`📥 [FRONTEND] Response received - Status: ${response.status}`);
-
     if (!response.ok) {
-      console.warn(`⚠️  [FRONTEND] Server returned error status: ${response.status}`);
       const errorData = await response.json();
       return {
         isValid: false,
@@ -44,7 +35,6 @@ export async function validateSQL(userQuery, correctQuery) {
     }
 
     const result = await response.json();
-    console.log(`✅ [FRONTEND] Validation result: ${result.isValid ? 'PASSED' : 'FAILED'}`);
     return result;
 
   } catch (error) {
@@ -76,13 +66,10 @@ export async function validateSQLAgainstMany(userQuery, possibleQueries) {
  */
 export async function checkBackendHealth() {
   try {
-    console.log('❤️  [FRONTEND] Checking backend health...');
     const response = await fetch(`${API_BASE_URL}/api/health`);
-    const isHealthy = response.ok;
-    console.log(`${isHealthy ? '✅' : '❌'} [FRONTEND] Backend health: ${isHealthy ? 'CONNECTED' : 'DISCONNECTED'}`);
-    return isHealthy;
+    return response.ok;
   } catch (error) {
-    console.error('❌ [FRONTEND] Backend health check failed:', error.message);
+    console.error('Backend health check failed:', error.message);
     return false;
   }
 }
@@ -93,14 +80,11 @@ export async function checkBackendHealth() {
  */
 export async function getTableSchemas() {
   try {
-    console.log('📋 [FRONTEND] Fetching table schemas...');
     const response = await fetch(`${API_BASE_URL}/api/table-schemas`);
     if (!response.ok) throw new Error('Failed to fetch schemas');
-    const schemas = await response.json();
-    console.log(`✅ [FRONTEND] Fetched ${Object.keys(schemas).length} table schemas`);
-    return schemas;
+    return await response.json();
   } catch (error) {
-    console.error('❌ [FRONTEND] Error fetching table schemas:', error.message);
+    console.error('Error fetching table schemas:', error.message);
     return {};
   }
 }
