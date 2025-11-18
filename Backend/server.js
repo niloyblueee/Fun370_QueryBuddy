@@ -9,6 +9,9 @@ const { URL } = require('url');
 const app = express();
 const PORT = process.env.PORT || 3001;
 
+console.log('🚀 [SERVER] Starting backend server initialization...');
+console.log(`📡 [PORT] Server will run on port: ${PORT}`);
+
 // Prefer MYSQL_URL if present (Railway style), otherwise fall back to discrete vars
 const parseDbConfig = () => {
   const rawUrl = process.env.MYSQL_URL ? process.env.MYSQL_URL.trim() : '';
@@ -39,9 +42,17 @@ const parseDbConfig = () => {
 
 const dbConfig = parseDbConfig();
 
+console.log('🔧 [CONFIG] Database configuration loaded:');
+console.log(`  Host: ${dbConfig.host}`);
+console.log(`  Port: ${dbConfig.port}`);
+console.log(`  Database: ${dbConfig.database}`);
+console.log(`  User: ${dbConfig.user}`);
+
 // Middleware
 app.use(cors());
+console.log('✅ [MIDDLEWARE] CORS enabled');
 app.use(express.json());
+console.log('✅ [MIDDLEWARE] JSON parser enabled');
 
 // Create connection pool
 const pool = mysql.createPool({
@@ -58,9 +69,11 @@ const pool = mysql.createPool({
 
 // Database middleware - attach pool to all requests (AFTER pool is created)
 app.use((req, res, next) => {
+  console.log(`📨 [REQUEST] ${req.method} ${req.path}`);
   req.db = pool;
   next();
 });
+console.log('✅ [MIDDLEWARE] Database pool middleware attached');
 
 // Initialize database if needed
 const initializeDatabase = async () => {
@@ -98,9 +111,13 @@ const initializeDatabase = async () => {
 // Endpoint to validate SQL query against database
 app.post('/api/validate-query', async (req, res) => {
   try {
+    console.log('🔍 [API] /api/validate-query - Validating SQL query');
     const { userQuery, correctQueries } = req.body;
+    console.log(`  User Query: ${userQuery.substring(0, 100)}...`);
+    console.log(`  Expected Queries Count: ${Array.isArray(correctQueries) ? correctQueries.length : 1}`);
 
     if (!userQuery) {
+      console.warn('⚠️  [API] Missing user query');
       return res.status(400).json({
         isValid: false,
         feedback: 'User query is required'
@@ -122,6 +139,7 @@ app.post('/api/validate-query', async (req, res) => {
 
         // Compare results - check if they're equivalent
         if (resultsAreEquivalent(userResult, correctResult)) {
+          console.log(`✅ [API] Query validation PASSED - ${userResult.length} rows returned`);
           return res.json({
             isValid: true,
             feedback: 'Correct! Your query returns the expected results.',
@@ -132,6 +150,7 @@ app.post('/api/validate-query', async (req, res) => {
       }
 
       // If no match found
+      console.log(`❌ [API] Query validation FAILED - Expected results not matched`);
       return res.json({
         isValid: false,
         feedback: 'Your query does not return the expected results.',
@@ -144,7 +163,7 @@ app.post('/api/validate-query', async (req, res) => {
     }
 
   } catch (error) {
-    console.error('Query execution error:', error);
+    console.error('❌ [API] Query execution error:', error.message);
     return res.status(400).json({
       isValid: false,
       feedback: `SQL Error: ${error.message}`
@@ -155,6 +174,7 @@ app.post('/api/validate-query', async (req, res) => {
 // Endpoint to get table schemas
 app.get('/api/table-schemas', async (req, res) => {
   try {
+    console.log('📋 [API] /api/table-schemas - Fetching table schemas');
     const connection = await req.db.getConnection();
     
     const [tables] = await connection.query(
@@ -173,9 +193,10 @@ app.get('/api/table-schemas', async (req, res) => {
     }
 
     connection.release();
+    console.log(`✅ [API] Fetched ${Object.keys(schemas).length} tables`);
     res.json(schemas);
   } catch (error) {
-    console.error('Error fetching schemas:', error);
+    console.error('❌ [API] Error fetching schemas:', error.message);
     res.status(500).json({ error: error.message });
   }
 });
@@ -183,15 +204,18 @@ app.get('/api/table-schemas', async (req, res) => {
 // Endpoint to test connection
 app.get('/api/health', async (req, res) => {
   try {
+    console.log('❤️  [API] /api/health - Health check request');
     const connection = await req.db.getConnection();
     const [result] = await connection.query('SELECT 1 as status');
     connection.release();
     
+    console.log('✅ [API] Database connection healthy');
     res.json({ 
       status: 'connected',
       message: 'Database connection successful'
     });
   } catch (error) {
+    console.error('❌ [API] Health check failed:', error.message);
     res.status(500).json({ 
       status: 'disconnected',
       error: error.message 
@@ -214,6 +238,10 @@ function resultsAreEquivalent(result1, result2) {
 
 // Start server
 app.listen(PORT, async () => {
-  console.log(`Query validation server running on port ${PORT}`);
+  console.log('\n' + '='.repeat(60));
+  console.log(`✨ [SERVER] Query validation server running on port ${PORT}`);
+  console.log(`🌐 [SERVER] Backend is LIVE and accepting requests!`);
+  console.log(`📍 [SERVER] Access health check at: http://localhost:${PORT}/api/health`);
+  console.log('='.repeat(60) + '\n');
   await initializeDatabase();
 });

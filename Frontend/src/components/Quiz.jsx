@@ -18,25 +18,34 @@ const Quiz = ({ mode, questions, onComplete }) => {
 
   // Check backend health on component mount
   useEffect(() => {
+    console.log('🎯 [QUIZ] Component mounted - Checking backend health...');
     checkBackendHealth().then(isHealthy => {
+      console.log(`🎯 [QUIZ] Backend health check result: ${isHealthy ? 'HEALTHY ✅' : 'NOT RUNNING ❌'}`);
       setBackendConnected(isHealthy);
       if (!isHealthy) {
+        console.error('🎯 [QUIZ] Backend is not available!');
         setFeedback('⚠️ Backend server not available. Please ensure the backend is running.');
       }
     });
   }, []);
 
   const handleSubmit = async () => {
+    console.log('🎯 [QUIZ] Submit button clicked');
+    console.log(`🎯 [QUIZ] Backend connected: ${backendConnected}`);
+    
     if (!backendConnected) {
+      console.error('🎯 [QUIZ] Cannot submit - backend not connected');
       setFeedback('⚠️ Backend server not available. Please ensure the backend is running.');
       return;
     }
 
     if (!userQuery.trim()) {
+      console.warn('🎯 [QUIZ] User query is empty');
       setFeedback('⚠️ Please enter a SQL query');
       return;
     }
 
+    console.log('🎯 [QUIZ] Validating query against backend...');
     // Validate against correct answer via API
     const result = await validateSQL(userQuery, currentQuestion.answer);
     setValidationResult(result);
