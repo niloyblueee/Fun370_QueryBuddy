@@ -4,9 +4,40 @@ const express = require('express');
 const mysql = require('mysql2/promise');
 const cors = require('cors');
 const fs = require('fs');
+const { URL } = require('url');
 
 const app = express();
 const PORT = process.env.PORT || 3001;
+
+// Prefer MYSQL_URL if present (Railway style), otherwise fall back to discrete vars
+const parseDbConfig = () => {
+  const rawUrl = process.env.MYSQL_URL ? process.env.MYSQL_URL.trim() : '';
+
+  if (rawUrl) {
+    try {
+      const parsed = new URL(rawUrl);
+      return {
+        host: parsed.hostname || process.env.MYSQL_HOST,
+        port: parsed.port || process.env.MYSQL_PORT,
+        user: parsed.username || process.env.MYSQL_USER,
+        password: parsed.password || process.env.MYSQL_PASSWORD,
+        database: parsed.pathname ? parsed.pathname.replace(/^\//, '') : process.env.MYSQL_DATABASE
+      };
+    } catch (err) {
+      console.warn('Invalid MYSQL_URL, falling back to discrete env vars:', err.message);
+    }
+  }
+
+  return {
+    host: process.env.MYSQL_HOST,
+    port: process.env.MYSQL_PORT,
+    user: process.env.MYSQL_USER,
+    password: process.env.MYSQL_PASSWORD,
+    database: process.env.MYSQL_DATABASE
+  };
+};
+
+const dbConfig = parseDbConfig();
 
 // Middleware
 app.use(cors());
@@ -20,11 +51,11 @@ app.use((req, res, next) => {
 
 // Create connection pool
 const pool = mysql.createPool({
-  host: process.env.MYSQL_HOST,
-  port: process.env.MYSQL_PORT,
-  user: process.env.MYSQL_USER,
-  password: process.env.MYSQL_PASSWORD,
-  database: process.env.MYSQL_DATABASE,
+  host: dbConfig.host,
+  port: dbConfig.port,
+  user: dbConfig.user,
+  password: dbConfig.password,
+  database: dbConfig.database,
   waitForConnections: true,
   connectionLimit: 10,
   queueLimit: 0,
@@ -43,13 +74,13 @@ const initializeDatabase = async () => {
     // Check if tables exist in current database
     const [tables] = await connection.query(
       "SELECT TABLE_NAME FROM INFORMATION_SCHEMA.TABLES WHERE TABLE_SCHEMA = ?",
-      [process.env.MYSQL_DATABASE]
+      [dbConfig.database]
     );
     
     connection.release();
 
     if (tables.length === 0) {
-      console.log('No tables found in database:', process.env.MYSQL_DATABASE);
+      console.log('No tables found in database:', dbConfig.database);
       console.log('Initializing database...');
       const sql = fs.readFileSync(path.join(__dirname, 'DB', 'Create tables.sql'), 'utf8');
       const connection = await pool.getConnection();
@@ -57,7 +88,7 @@ const initializeDatabase = async () => {
       connection.release();
       console.log('Database initialized with schema and dummy data!');
     } else {
-      console.log(`Database '${process.env.MYSQL_DATABASE}' has ${tables.length} tables!`);
+      console.log(`Database '${dbConfig.database}' has ${tables.length} tables!`);
     }
   } catch (err) {
     console.error('Error during database initialization:', err.message);
@@ -128,7 +159,7 @@ app.get('/api/table-schemas', async (req, res) => {
     
     const [tables] = await connection.query(
       "SELECT TABLE_NAME FROM INFORMATION_SCHEMA.TABLES WHERE TABLE_SCHEMA = ?",
-      [process.env.MYSQL_DATABASE]
+      [dbConfig.database]
     );
 
     const schemas = {};
@@ -136,7 +167,7 @@ app.get('/api/table-schemas', async (req, res) => {
       const tableName = table.TABLE_NAME;
       const [columns] = await connection.query(
         "SELECT COLUMN_NAME, COLUMN_TYPE FROM INFORMATION_SCHEMA.COLUMNS WHERE TABLE_SCHEMA = ? AND TABLE_NAME = ?",
-        [process.env.MYSQL_DATABASE, tableName]
+        [dbConfig.database, tableName]
       );
       schemas[tableName] = columns;
     }
