@@ -90,13 +90,7 @@ const initializeDatabase = async () => {
 app.post('/api/validate-query', async (req, res) => {
   try {
 
-    let { userQuery, correctQueries } = req.body;
-
-    // Convert userQuery to lowercase to reduce case sensitivity issues
-    if (typeof userQuery === 'string') {
-      userQuery = userQuery.toLowerCase();
-    }
-    console.log(userQuery)
+    const { userQuery, correctQueries } = req.body;
     if (!userQuery) {
       return res.status(400).json({
         isValid: false,
