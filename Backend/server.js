@@ -89,7 +89,13 @@ const initializeDatabase = async () => {
 // Endpoint to validate SQL query against database
 app.post('/api/validate-query', async (req, res) => {
   try {
-    const { userQuery, correctQueries } = req.body;
+
+    let { userQuery, correctQueries } = req.body;
+
+    // Convert userQuery to lowercase to reduce case sensitivity issues
+    if (typeof userQuery === 'string') {
+      userQuery = userQuery.toLowerCase();
+    }
 
     if (!userQuery) {
       return res.status(400).json({
