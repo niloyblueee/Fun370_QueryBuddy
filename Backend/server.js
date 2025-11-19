@@ -96,7 +96,7 @@ app.post('/api/validate-query', async (req, res) => {
     if (typeof userQuery === 'string') {
       userQuery = userQuery.toLowerCase();
     }
-
+    console.log(userQuery)
     if (!userQuery) {
       return res.status(400).json({
         isValid: false,
