@@ -118,46 +118,50 @@ const Quiz = ({ mode, questions, onComplete, onBack }) => {
 
   return (
     <div className="quiz-container">
-      {/* Header */}
-      <div className="quiz-header">
-        <div className="quiz-progress">
-          <span className="progress-text">
-            Question {currentQuestionIndex + 1} of {questions.length}
-          </span>
-          <div className="progress-bar">
-            <div 
-              className="progress-fill" 
-              style={{ 
-                width: `${((currentQuestionIndex + 1) / questions.length) * 100}%`,
-                backgroundColor: getDifficultyColor(currentQuestion.difficulty)
-              }}
-            />
-          </div>
-        </div>
-        
-        <div className="quiz-stats">
-          <div className="stat-item">
-            <span className="stat-label">Score</span>
-            <span className="stat-value">{score}</span>
-          </div>
-          <div className="stat-item">
-            <span className="stat-label">Strikes</span>
-            <span className="stat-value strikes-count">
-              {'❌'.repeat(strikes)}
-              {'⭕'.repeat(2 - strikes)}
-            </span>
-          </div>
-          <div className="stat-item difficulty-badge" style={{ backgroundColor: getDifficultyColor(currentQuestion.difficulty) }}>
-            {currentQuestion.difficulty}
-          </div>
-        </div>
+      {/* Left Column - Schema */}
+      <div className="schema-column">
+        <TableSchema />
       </div>
 
-      {/* Table Schema Reference */}
-      <TableSchema />
+      {/* Right Column - Question and Input */}
+      <div className="question-column">
+        {/* Header */}
+        <div className="quiz-header">
+          <div className="quiz-progress">
+            <span className="progress-text">
+              Question {currentQuestionIndex + 1} of {questions.length}
+            </span>
+            <div className="progress-bar">
+              <div 
+                className="progress-fill" 
+                style={{ 
+                  width: `${((currentQuestionIndex + 1) / questions.length) * 100}%`,
+                  backgroundColor: getDifficultyColor(currentQuestion.difficulty)
+                }}
+              />
+            </div>
+          </div>
+          
+          <div className="quiz-stats">
+            <div className="stat-item">
+              <span className="stat-label">Score</span>
+              <span className="stat-value">{score}</span>
+            </div>
+            <div className="stat-item">
+              <span className="stat-label">Strikes</span>
+              <span className="stat-value strikes-count">
+                {'❌'.repeat(strikes)}
+                {'⭕'.repeat(2 - strikes)}
+              </span>
+            </div>
+            <div className="stat-item difficulty-badge" style={{ backgroundColor: getDifficultyColor(currentQuestion.difficulty) }}>
+              {currentQuestion.difficulty}
+            </div>
+          </div>
+        </div>
 
-      {/* Question Section */}
-      <div className="question-section">
+        {/* Question Section */}
+        <div className="question-section">
         <div className="question-card">
           <h2 className="question-title">Question {currentQuestionIndex + 1}</h2>
           <p className="question-text">{currentQuestion.question}</p>
@@ -224,6 +228,7 @@ const Quiz = ({ mode, questions, onComplete, onBack }) => {
             )}
           </div>
         )}
+        </div>
       </div>
     </div>
   );
