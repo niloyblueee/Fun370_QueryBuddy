@@ -207,20 +207,113 @@
 .mode-card:nth-child(5) { animation-delay: 0.5s; }
 
 @media (max-width: 768px) {
+  .mode-selector {
+    padding: 30px 15px;
+  }
+
+  .mode-header {
+    margin-bottom: 40px;
+  }
+
   .mode-header h1 {
     font-size: 2rem;
+    letter-spacing: 1px;
   }
 
   .mode-subtitle {
     font-size: 1rem;
+    padding: 0 10px;
   }
 
   .modes-container {
     grid-template-columns: 1fr;
     padding: 0 10px;
+    gap: 20px;
   }
 
   .mode-card {
-    padding: 25px;
+    padding: 25px 20px;
+  }
+
+  .mode-icon {
+    font-size: 3rem;
+  }
+
+  .mode-title {
+    font-size: 1.6rem;
+  }
+
+  .mode-description {
+    font-size: 0.95rem;
+    min-height: 50px;
+  }
+
+  .mode-button {
+    padding: 12px 20px;
+    font-size: 1rem;
+  }
+
+  .info-section {
+    padding: 15px 20px;
+    margin: 0 10px;
+  }
+
+  .info-section p {
+    font-size: 0.95rem;
+  }
+}
+
+@media (max-width: 480px) {
+  .mode-selector {
+    padding: 25px 10px;
+  }
+
+  .mode-header {
+    margin-bottom: 30px;
+  }
+
+  .mode-header h1 {
+    font-size: 1.6rem;
+    letter-spacing: 0.5px;
+  }
+
+  .mode-subtitle {
+    font-size: 0.9rem;
+  }
+
+  .modes-container {
+    gap: 15px;
+  }
+
+  .mode-card {
+    padding: 20px 15px;
+  }
+
+  .mode-icon {
+    font-size: 2.5rem;
+    margin-bottom: 12px;
+  }
+
+  .mode-title {
+    font-size: 1.4rem;
+  }
+
+  .mode-description {
+    font-size: 0.9rem;
+    min-height: 45px;
+    margin-bottom: 15px;
+  }
+
+  .mode-button {
+    padding: 11px 18px;
+    font-size: 0.95rem;
+  }
+
+  .info-section {
+    padding: 12px 15px;
+  }
+
+  .info-section p {
+    font-size: 0.9rem;
   }
 }

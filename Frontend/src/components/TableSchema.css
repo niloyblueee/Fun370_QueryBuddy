@@ -105,13 +105,92 @@
 @media (max-width: 768px) {
   .tables-grid {
     grid-template-columns: 1fr;
+    gap: 15px;
   }
   
   .table-schema-container {
     padding: 15px;
+    margin-bottom: 20px;
+  }
+
+  .table-schema-container h2 {
+    font-size: 1.4rem;
+    letter-spacing: 1px;
+    margin-bottom: 15px;
+  }
+
+  .table-card {
+    padding: 12px;
+  }
+
+  .table-name {
+    font-size: 1.1rem;
+    margin-bottom: 10px;
+    padding-bottom: 6px;
   }
   
   .schema-table {
+    font-size: 0.85rem;
+  }
+
+  .schema-table th {
+    padding: 6px 4px;
+    font-size: 0.75rem;
+  }
+
+  .schema-table td {
+    padding: 6px 4px;
+  }
+
+  .column-type {
     font-size: 0.8rem;
+  }
+
+  .column-constraint {
+    font-size: 0.7rem;
+    padding: 2px 4px;
+  }
+}
+
+@media (max-width: 480px) {
+  .table-schema-container {
+    padding: 12px;
+    margin-bottom: 15px;
+  }
+
+  .table-schema-container h2 {
+    font-size: 1.2rem;
+    margin-bottom: 12px;
+  }
+
+  .table-card {
+    padding: 10px;
+  }
+
+  .table-name {
+    font-size: 1rem;
+    margin-bottom: 8px;
+  }
+
+  .schema-table {
+    font-size: 0.75rem;
+  }
+
+  .schema-table th {
+    padding: 5px 3px;
+    font-size: 0.7rem;
+  }
+
+  .schema-table td {
+    padding: 5px 3px;
+  }
+
+  .column-type {
+    font-size: 0.7rem;
+  }
+
+  .column-constraint {
+    font-size: 0.65rem;
+    padding: 1px 3px;
   }
 }

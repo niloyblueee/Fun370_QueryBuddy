@@ -364,37 +364,210 @@
 /* Responsive Design */
 @media (max-width: 768px) {
   .quiz-container {
-    padding: 20px 10px;
+    padding: 15px 10px;
   }
 
   .quiz-header {
-    padding: 20px;
+    padding: 15px;
+  }
+
+  .progress-text {
+    font-size: 0.95rem;
+    margin-bottom: 8px;
   }
 
   .quiz-stats {
-    gap: 10px;
+    gap: 8px;
+    justify-content: center;
   }
 
   .stat-item {
-    min-width: 100px;
-    padding: 8px 15px;
+    min-width: 90px;
+    padding: 10px 12px;
+    flex: 1;
+  }
+
+  .stat-label {
+    font-size: 0.75rem;
+    letter-spacing: 0.5px;
   }
 
   .stat-value {
-    font-size: 1.5rem;
+    font-size: 1.4rem;
   }
 
-  .question-card,
+  .strikes-count {
+    font-size: 1.2rem;
+    letter-spacing: 2px;
+  }
+
+  .difficulty-badge {
+    padding: 10px 12px;
+    font-size: 0.85rem;
+    letter-spacing: 0.5px;
+    min-width: 90px;
+    text-align: center;
+  }
+
+  .question-card {
+    padding: 20px 15px;
+  }
+
+  .question-title {
+    font-size: 1.2rem;
+    margin-bottom: 12px;
+  }
+
+  .question-text {
+    font-size: 1.05rem;
+    line-height: 1.6;
+  }
+
   .query-input-section {
-    padding: 20px;
+    padding: 20px 15px;
+  }
+
+  .input-label {
+    font-size: 0.95rem;
+    letter-spacing: 0.5px;
+  }
+
+  .query-textarea {
+    font-size: 0.9rem;
+    padding: 12px;
   }
 
   .button-group {
     flex-direction: column;
+    gap: 12px;
+    margin-top: 15px;
   }
 
   .submit-button,
-  .skip-button {
+  .skip-button,
+  .back-button {
     width: 100%;
+    padding: 14px 20px;
+    font-size: 1rem;
+  }
+
+  .feedback-section {
+    padding: 15px;
+  }
+
+  .feedback-text {
+    font-size: 1rem;
+  }
+
+  .answer-section {
+    padding: 20px 15px;
+  }
+
+  .answer-title {
+    font-size: 1.1rem;
+  }
+
+  .answer-code {
+    padding: 15px;
+    font-size: 0.9rem;
+    line-height: 1.6;
+  }
+}
+
+@media (max-width: 480px) {
+  .quiz-container {
+    padding: 12px 8px;
+  }
+
+  .quiz-header {
+    padding: 12px;
+  }
+
+  .progress-text {
+    font-size: 0.9rem;
+  }
+
+  .progress-bar {
+    height: 10px;
+  }
+
+  .quiz-stats {
+    gap: 6px;
+  }
+
+  .stat-item {
+    min-width: 80px;
+    padding: 8px 10px;
+  }
+
+  .stat-label {
+    font-size: 0.7rem;
+    margin-bottom: 3px;
+  }
+
+  .stat-value {
+    font-size: 1.2rem;
+  }
+
+  .strikes-count {
+    font-size: 1rem;
+    letter-spacing: 1px;
+  }
+
+  .difficulty-badge {
+    padding: 8px 10px;
+    font-size: 0.75rem;
+    min-width: 80px;
+  }
+
+  .question-card {
+    padding: 15px 12px;
+  }
+
+  .question-title {
+    font-size: 1.1rem;
+    letter-spacing: 0.5px;
+  }
+
+  .question-text {
+    font-size: 0.95rem;
+    line-height: 1.5;
+  }
+
+  .query-input-section {
+    padding: 15px 12px;
+  }
+
+  .input-label {
+    font-size: 0.9rem;
+  }
+
+  .query-textarea {
+    font-size: 0.85rem;
+    padding: 10px;
+  }
+
+  .button-group {
+    gap: 10px;
+  }
+
+  .submit-button,
+  .skip-button,
+  .back-button {
+    padding: 12px 16px;
+    font-size: 0.9rem;
+  }
+
+  .feedback-text {
+    font-size: 0.95rem;
+  }
+
+  .answer-title {
+    font-size: 1rem;
+  }
+
+  .answer-code {
+    font-size: 0.85rem;
+    padding: 12px;
   }
 }
