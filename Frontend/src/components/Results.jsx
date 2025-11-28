@@ -4,7 +4,7 @@ import './Results.css';
 
 const Results = ({ results, onRestart, onBack }) => {
   const navigate = useNavigate();
-  const { totalQuestions, score, mode } = results;
+  const { totalQuestions, score, mode, questionHistory = [] } = results;
   const maxScore = totalQuestions * 10; // 10 points per question
   const percentage = ((score / maxScore) * 100).toFixed(1);
 
@@ -82,6 +82,46 @@ const Results = ({ results, onRestart, onBack }) => {
             ← Back to Modes
           </button>
         </div>
+
+        {/* Question Review Section */}
+        {questionHistory.length > 0 && (
+          <div className="question-review-section">
+            <h2 className="review-title">📝 Question Review</h2>
+            <div className="questions-list">
+              {questionHistory.map((item, index) => (
+                <div key={index} className={`review-card ${item.isCorrect ? 'correct' : 'incorrect'}`}>
+                  <div className="review-header">
+                    <span className="question-number">Question {index + 1}</span>
+                    <span className={`difficulty-badge-small ${item.difficulty.toLowerCase()}`}>
+                      {item.difficulty}
+                    </span>
+                    <span className="result-badge">
+                      {item.isCorrect ? '✅ Correct' : '❌ Incorrect'}
+                    </span>
+                  </div>
+                  
+                  <div className="review-question">
+                    <strong>Question:</strong> {item.question}
+                  </div>
+                  
+                  <div className="review-answers">
+                    <div className="user-answer">
+                      <strong>Your Answer:</strong>
+                      <pre className="answer-code">{item.userAnswer}</pre>
+                    </div>
+                    
+                    {!item.isCorrect && (
+                      <div className="correct-answer">
+                        <strong>Correct Answer:</strong>
+                        <pre className="answer-code correct">{item.correctAnswer}</pre>
+                      </div>
+                    )}
+                  </div>
+                </div>
+              ))}
+            </div>
+          </div>
+        )}
       </div>
 
       <div className="confetti">

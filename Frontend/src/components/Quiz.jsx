@@ -15,6 +15,7 @@ const Quiz = ({ mode, questions, onComplete, onBack }) => {
   const [completedQuestions, setCompletedQuestions] = useState(0);
   const [validationResult, setValidationResult] = useState(null);
   const [backendConnected, setBackendConnected] = useState(false);
+  const [questionHistory, setQuestionHistory] = useState([]);
 
   const currentQuestion = questions[currentQuestionIndex];
 
@@ -46,12 +47,18 @@ const Quiz = ({ mode, questions, onComplete, onBack }) => {
     if (result.isValid) {
       // Correct answer
       setFeedback(`✅ ${result.feedback}`);
-      setScore(score + (strikes === 0 ? 10 : 5)); // Full points if no strikes
+      const newScore = score + (strikes === 0 ? 10 : 5);
+      setScore(newScore);
       setShowAnswer(true);
       
-      setTimeout(() => {
-        moveToNextQuestion();
-      }, 3000);
+      // Record this question in history
+      setQuestionHistory([...questionHistory, {
+        question: currentQuestion.question,
+        userAnswer: userQuery,
+        correctAnswer: currentQuestion.answer,
+        isCorrect: true,
+        difficulty: currentQuestion.difficulty
+      }]);
     } else {
       // Wrong answer
       const newStrikes = strikes + 1;
@@ -62,9 +69,14 @@ const Quiz = ({ mode, questions, onComplete, onBack }) => {
         setFeedback(`❌ ${result.feedback}. Here's the correct answer:`);
         setShowAnswer(true);
         
-        setTimeout(() => {
-          moveToNextQuestion();
-        }, 5000);
+        // Record this question in history
+        setQuestionHistory([...questionHistory, {
+          question: currentQuestion.question,
+          userAnswer: userQuery,
+          correctAnswer: currentQuestion.answer,
+          isCorrect: false,
+          difficulty: currentQuestion.difficulty
+        }]);
       } else {
         setFeedback(`❌ ${result.feedback}. You have 1 more chance! Try again.`);
       }
@@ -82,7 +94,8 @@ const Quiz = ({ mode, questions, onComplete, onBack }) => {
       onComplete({
         totalQuestions: questions.length,
         score: score,
-        mode: mode
+        mode: mode,
+        questionHistory: questionHistory
       });
       navigate('/results');
     }
@@ -101,9 +114,14 @@ const Quiz = ({ mode, questions, onComplete, onBack }) => {
     setShowAnswer(true);
     setFeedback('⏭️ Question skipped. Here\'s the answer:');
     
-    setTimeout(() => {
-      moveToNextQuestion();
-    }, 5000);
+    // Record skipped question in history
+    setQuestionHistory([...questionHistory, {
+      question: currentQuestion.question,
+      userAnswer: 'Skipped',
+      correctAnswer: currentQuestion.answer,
+      isCorrect: false,
+      difficulty: currentQuestion.difficulty
+    }]);
   };
 
   const getDifficultyColor = (difficulty) => {
@@ -221,10 +239,20 @@ const Quiz = ({ mode, questions, onComplete, onBack }) => {
           <div className="answer-section">
             <h3 className="answer-title">Correct Answer:</h3>
             <pre className="answer-code">{currentQuestion.answer}</pre>
-            {currentQuestionIndex < questions.length - 1 && (
-              <p className="next-question-hint">
-                Moving to next question in a moment...
-              </p>
+            {currentQuestionIndex < questions.length - 1 ? (
+              <button 
+                className="next-question-button"
+                onClick={moveToNextQuestion}
+              >
+                Next Question →
+              </button>
+            ) : (
+              <button 
+                className="next-question-button"
+                onClick={moveToNextQuestion}
+              >
+                View Results →
+              </button>
             )}
           </div>
         )}

@@ -471,3 +471,210 @@
     gap: 8px;
   }
 }
+
+/* Question Review Section */
+.question-review-section {
+  margin-top: 40px;
+  padding-top: 30px;
+  border-top: 2px solid rgba(100, 180, 255, 0.2);
+  animation: fadeIn 1s ease-out 0.8s backwards;
+}
+
+.review-title {
+  color: #64b5f6;
+  font-size: 1.8rem;
+  margin-bottom: 25px;
+  text-align: center;
+  text-transform: uppercase;
+  letter-spacing: 2px;
+}
+
+.questions-list {
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+}
+
+.review-card {
+  background: rgba(40, 40, 70, 0.8);
+  border-radius: 12px;
+  padding: 20px;
+  border: 2px solid;
+  transition: all 0.3s ease;
+}
+
+.review-card.correct {
+  border-color: rgba(129, 199, 132, 0.5);
+  background: rgba(129, 199, 132, 0.05);
+}
+
+.review-card.incorrect {
+  border-color: rgba(239, 83, 80, 0.5);
+  background: rgba(239, 83, 80, 0.05);
+}
+
+.review-card:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.3);
+}
+
+.review-header {
+  display: flex;
+  align-items: center;
+  gap: 15px;
+  margin-bottom: 15px;
+  flex-wrap: wrap;
+}
+
+.question-number {
+  font-weight: 700;
+  color: #90caf9;
+  font-size: 1.1rem;
+}
+
+.difficulty-badge-small {
+  padding: 4px 12px;
+  border-radius: 6px;
+  font-size: 0.8rem;
+  font-weight: 700;
+  text-transform: uppercase;
+}
+
+.difficulty-badge-small.easy {
+  background: rgba(102, 187, 106, 0.3);
+  color: #66bb6a;
+}
+
+.difficulty-badge-small.medium {
+  background: rgba(255, 167, 38, 0.3);
+  color: #ffa726;
+}
+
+.difficulty-badge-small.hard {
+  background: rgba(239, 83, 80, 0.3);
+  color: #ef5350;
+}
+
+.difficulty-badge-small.complicated {
+  background: rgba(171, 71, 188, 0.3);
+  color: #ab47bc;
+}
+
+.result-badge {
+  margin-left: auto;
+  padding: 6px 12px;
+  border-radius: 6px;
+  font-weight: 600;
+  font-size: 0.9rem;
+}
+
+.review-question {
+  color: #e0e0e0;
+  font-size: 1.1rem;
+  margin-bottom: 15px;
+  line-height: 1.6;
+}
+
+.review-question strong {
+  color: #90caf9;
+  display: block;
+  margin-bottom: 8px;
+}
+
+.review-answers {
+  display: flex;
+  flex-direction: column;
+  gap: 15px;
+}
+
+.user-answer,
+.correct-answer {
+  background: rgba(20, 20, 40, 0.6);
+  border-radius: 8px;
+  padding: 15px;
+}
+
+.user-answer strong,
+.correct-answer strong {
+  color: #b0bec5;
+  display: block;
+  margin-bottom: 8px;
+  font-size: 0.9rem;
+  text-transform: uppercase;
+  letter-spacing: 1px;
+}
+
+.answer-code {
+  background: rgba(10, 10, 30, 0.8);
+  border-radius: 6px;
+  padding: 12px;
+  color: #fff;
+  font-family: 'Courier New', 'Consolas', monospace;
+  font-size: 0.95rem;
+  line-height: 1.6;
+  overflow-x: auto;
+  margin: 0;
+  border: 1px solid rgba(100, 180, 255, 0.2);
+}
+
+.answer-code.correct {
+  border-color: rgba(129, 199, 132, 0.4);
+}
+
+@media (max-width: 768px) {
+  .question-review-section {
+    margin-top: 25px;
+    padding-top: 20px;
+  }
+
+  .review-title {
+    font-size: 1.4rem;
+    margin-bottom: 20px;
+  }
+
+  .review-card {
+    padding: 15px;
+  }
+
+  .review-header {
+    gap: 10px;
+  }
+
+  .question-number {
+    font-size: 1rem;
+  }
+
+  .difficulty-badge-small {
+    font-size: 0.7rem;
+    padding: 3px 8px;
+  }
+
+  .result-badge {
+    font-size: 0.8rem;
+    padding: 4px 10px;
+  }
+
+  .review-question {
+    font-size: 1rem;
+  }
+
+  .answer-code {
+    font-size: 0.85rem;
+    padding: 10px;
+  }
+}
+
+@media (max-width: 480px) {
+  .review-card {
+    padding: 12px;
+  }
+
+  .review-header {
+    gap: 8px;
+  }
+
+  .answer-code {
+    font-size: 0.8rem;
+    padding: 8px;
+  }
+}
